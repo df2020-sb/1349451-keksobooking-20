@@ -61,7 +61,7 @@ var getRandomArrayElements = function (arr) {
 var createObject = function (index) {
   var locationX = getRandomRangeNumber(0, map.offsetWidth);
   var locationY = getRandomRangeNumber(MIN_Y, MAX_Y);
-  var object = {
+  return {
     author: {
       avatar: 'img/avatars/user0' + (index + 1) + '.png',
     },
@@ -83,7 +83,6 @@ var createObject = function (index) {
       photos: getRandomArrayElements(PHOTOS),
     }
   }
-  return object;
 }
 
 var createObjectArray = function (number) {
@@ -106,7 +105,6 @@ var renderPin = function (object) {
 
 map.classList.remove('map--faded');
 var objects = createObjectArray(8);
-console.log(objects)
 for (var i = 0; i < objects.length; i++) {
   fragment.appendChild(renderPin(objects[i]));
 }
