@@ -154,10 +154,12 @@ function updateFeaturesList(object) {
 }
 
 function checkFeaturesListItem(featuresListItem, featuresArray) {
-  var feature = featuresArray.some(item => featuresListItem.classList.contains('popup__feature--' + item));
-  if (feature) {
-    featuresListItem.classList.remove('hidden');
-  }
+  var feature = featuresArray.some(function (item) {
+    featuresListItem.classList.contains('popup__feature--' + item);
+    if (feature) {
+      featuresListItem.classList.remove('hidden');
+    }
+  })
 }
 
 function updatePhotosList(object) {
