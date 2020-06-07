@@ -129,7 +129,6 @@ var renderPin = function (object) {
 var renderCard = function (object) {
   var rooms = object.offer.rooms;
   var guests = object.offer.guests;
-
   cardElement.querySelector('.popup__title').textContent = object.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = object.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = object.offer.price + '₽/ночь';
@@ -146,14 +145,18 @@ var renderCard = function (object) {
 }
 
 function updateFeaturesList(object) {
-  var features = object.offer.features;
   var featuresListItems = cardElement.querySelectorAll('.popup__features li');
+  var features = object.offer.features;
   for (var i = 0; i < featuresListItems.length; i++) {
-    featuresListItems[i].style.display = 'none';
-    for (var j = 0; j < features.length; j++) {
-      if (featuresListItems[i].classList.contains('popup__feature--' + features[j])) {
-        featuresListItems[i].style.display = 'inline-block';
-      }
+    featuresListItems[i].classList.add('hidden');
+    checkFeaturesListItem(featuresListItems[i], features);
+  }
+}
+
+function checkFeaturesListItem(featuresListItem, featuresArray) {
+  for (var i = 0; i < featuresArray.length; i++) {
+    if (featuresListItem.classList.contains('popup__feature--' + featuresArray[i])) {
+      featuresListItem.classList.remove('hidden');
     }
   }
 }
