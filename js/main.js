@@ -154,10 +154,9 @@ function updateFeaturesList(object) {
 }
 
 function checkFeaturesListItem(featuresListItem, featuresArray) {
-  for (var i = 0; i < featuresArray.length; i++) {
-    if (featuresListItem.classList.contains('popup__feature--' + featuresArray[i])) {
-      featuresListItem.classList.remove('hidden');
-    }
+  var feature = featuresArray.some(item => featuresListItem.classList.contains('popup__feature--' + item));
+  if (feature) {
+    featuresListItem.classList.remove('hidden');
   }
 }
 
