@@ -11,11 +11,19 @@ var TITLES = [
   'Тёплый коттедж (посуточно/долгий срок)'];
 var MIN_Y = 130;
 var MAX_Y = 630;
-var MIN_PRICE = 20000;
-var MAX_PRICE = 150000;
+var MIN_PRICE = 1000;
+var MAX_PRICE = 30000;
 var MAX_GUESTS = 10;
+var GUESTS_CASES = ['гостя', 'гостей'];
 var MAX_ROOMS = 12;
+var ROOMS_CASES = ['комната', 'комнаты', 'комнат']
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var TYPE_TRANSLATION = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
+};
 var CHECK_TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
 var DESCRIPTIONS = [
@@ -32,13 +40,27 @@ var PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 
-
 var map = document.querySelector('.map');
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 var pinContainer = document.querySelector('.map__pins');
+var cardTemplate = document.querySelector('#card')
+  .content
+  .querySelector('.map__card');
+var cardParent = document.querySelector('.map');
+var cardNextElement = cardParent.querySelector('.map__filters-container')
 var fragment = document.createDocumentFragment();
+
+// Подбор падежей существительного в зависимости от числительных
+var getNounCase = function (number, array) {
+  return (
+    number % 10 === 1 && number !== 11
+      ? array[0]
+      : (number % 10 === 2 && number !== 12) || (number % 10 === 3 && number !== 13) || (number % 10 === 4 && number !== 14)
+        ? array[1]
+        : array[2] || array[1])
+}
 
 // Cлучайное число в интервале включительно
 var getRandomRangeNumber = function (min, max) {
@@ -103,14 +125,72 @@ var renderPin = function (object) {
   return pinElement;
 }
 
+var renderCard = function (object) {
+  var cardElement = cardTemplate.cloneNode(true);
+  var rooms = object.offer.rooms;
+  var guests = object.offer.guests;
+
+  function updateFeaturesList() {
+    var features = object.offer.features;
+    var featuresListItems = cardElement.querySelectorAll('.popup__features li');
+    for (var i = 0; i < featuresListItems.length; i++) {
+      for (var j = 0; j < features.length; j++) {
+        if (featuresListItems[i].classList.contains('popup__feature--' + features[j])) {
+          featuresListItems[i].style.display = 'inline-block';
+          break;
+        }
+        featuresListItems[i].style.display = 'none';
+      }
+    }
+  }
+
+  function updatePhotosList() {
+    var photos = object.offer.photos;
+    var photosContainer = cardElement.querySelector('.popup__photos');
+    var imagesFragment = document.createDocumentFragment();
+    for (var i = 0; i < photos.length - 1; i++) {
+      var newImage = photosContainer.querySelector('img').cloneNode(true);
+      imagesFragment.appendChild(newImage);
+    }
+    photosContainer.appendChild(imagesFragment);
+
+    for (var j = 0; j < photos.length; j++) {
+      photosContainer.querySelector('img:nth-child(' + (j + 1) + ')').src = photos[j];
+    }
+  }
+
+  cardElement.querySelector('.popup__title').textContent = object.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = object.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = object.offer.price + '₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = TYPE_TRANSLATION[object.offer.type];
+  cardElement.querySelector('.popup__text--capacity').textContent =
+    rooms + ' ' + getNounCase(rooms, ROOMS_CASES) + ' для ' + guests + ' ' + getNounCase(guests, GUESTS_CASES);
+  cardElement.querySelector('.popup__text--time').textContent =
+    'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout;
+  cardElement.querySelector('.popup__description').textContent = object.offer.description;
+  updateFeaturesList();
+  updatePhotosList();
+
+  return cardElement;
+}
+
 map.classList.remove('map--faded');
+
+// Создаём массив объектов
 var objects = createObjectArray(8);
+
+// Рендерим пины и кладём в контейнер
 for (var i = 0; i < objects.length; i++) {
   fragment.appendChild(renderPin(objects[i]));
 }
 pinContainer.appendChild(fragment);
+fragment.innerHTML = '';
 
 
+// Рендерим первое объявление
+fragment.appendChild(renderCard(objects[0]));
+cardParent.insertBefore(fragment, cardNextElement);
 
+console.log(objects)
 
 
