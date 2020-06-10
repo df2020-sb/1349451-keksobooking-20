@@ -190,6 +190,15 @@ var activatePage = function () {
   mapFilters.classList.remove('map__filters--disabled');
   toggleDisableForm(adForm);
   updateAddressInputValue(mainPin);
+
+  var objects = createObjectArray(8);
+  for (var i = 0; i < objects.length; i++) {
+    fragment.appendChild(renderPin(objects[i]));
+  }
+  pinContainer.appendChild(fragment);
+  fragment.innerHTML = '';
+  fragment.appendChild(renderCard(objects[0]));
+  cardParent.insertBefore(fragment, cardNextElement)
 }
 
 var toggleDisableForm = function (form) {
@@ -237,12 +246,16 @@ window.onload = function () {
   toggleDisableForm(adForm);
 }
 
-mainPin.addEventListener('mousedown', function (e) {
-  if (e.button === 0) activatePage();
+mainPin.addEventListener('mousedown', function (evt) {
+  if (evt.button === 0) {
+    activatePage();
+  }
 })
 
-mainPin.addEventListener('keydown', function (e) {
-  if (e.which === 13) activatePage();
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    activatePage();
+  }
 })
 
 adForm.addEventListener('change', function (evt) {
@@ -252,16 +265,4 @@ adForm.addEventListener('change', function (evt) {
 })
 
 
-// Создаём массив объектов
-// var objects = createObjectArray(8);
 
-// Рендерим пины и кладём в контейнер
-// for (var i = 0; i < objects.length; i++) {
-//   fragment.appendChild(renderPin(objects[i]));
-// }
-// pinContainer.appendChild(fragment);
-// fragment.innerHTML = '';
-
-
-// fragment.appendChild(renderCard(objects[0]));
-// cardParent.insertBefore(fragment, cardNextElement)
