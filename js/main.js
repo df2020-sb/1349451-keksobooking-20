@@ -40,7 +40,15 @@ var PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 
+
+
 var map = document.querySelector('.map');
+var adForm = document.querySelector('.ad-form');
+var mapFilters = document.querySelector('.map__filters');
+var mainPin = document.querySelector('.map__pin--main');
+var roomNumberSelect = document.querySelector('#room_number');
+var capacitySelect = document.querySelector('#capacity');
+
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
@@ -140,7 +148,6 @@ var renderCard = function (object) {
   cardElement.querySelector('.popup__description').textContent = object.offer.description;
   updateFeaturesList(object);
   updatePhotosList(object);
-
   return cardElement;
 }
 
@@ -177,21 +184,84 @@ function updatePhotosList(object) {
   }
 }
 
-map.classList.remove('map--faded');
+var activatePage = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  mapFilters.classList.remove('map__filters--disabled');
+  toggleDisableForm(adForm);
+  updateAddressInputValue(mainPin);
+}
+
+var toggleDisableForm = function (form) {
+  Array.prototype.forEach.call(form.querySelectorAll('fieldset'), (function (a) {
+    a.disabled = !a.disabled;
+  }))
+}
+
+var updateAddressInputValue = function (pin) {
+  var pinX = Math.trunc(pin.offsetLeft + pin.offsetWidth / 2);
+  var pinY = Math.trunc(pin.offsetTop + pin.offsetHeight);
+  if (pin === mainPin && map.classList.contains('map--faded')) {
+    pinY = Math.trunc(pin.offsetTop + pin.offsetHeight / 2);
+  }
+  document.querySelector('#address').value = pinX + ', ' + pinY;
+}
+
+// Проверяем значения селектов кол-ва гостей и кол-ва комнат и выводим сообщение
+var checkCapacity = function (rooms, capacity) {
+  var message = '';
+  rooms = parseInt(rooms);
+  capacity = parseInt(capacity);
+
+  switch (true) {
+    case rooms === 100 && capacity !== 0:
+      message = 'Этот дом не для гостей';
+      break;
+
+    case rooms !== 100 && capacity === 0:
+      message = 'Укажите количество гостей';
+      break;
+
+    case capacity > rooms:
+      message = 'Слишком много гостей';
+      break;
+  }
+  capacitySelect.setCustomValidity(message);
+  capacitySelect.reportValidity();
+}
+
+
+// Start
+window.onload = function () {
+  updateAddressInputValue(mainPin);
+  toggleDisableForm(adForm);
+}
+
+mainPin.addEventListener('mousedown', function (e) {
+  if (e.button === 0) activatePage();
+})
+
+mainPin.addEventListener('keydown', function (e) {
+  if (e.which === 13) activatePage();
+})
+
+adForm.addEventListener('change', function (evt) {
+  if (evt.target === capacitySelect || evt.target === roomNumberSelect) {
+    checkCapacity(roomNumberSelect.value, capacitySelect.value);
+  }
+})
+
 
 // Создаём массив объектов
-var objects = createObjectArray(8);
+// var objects = createObjectArray(8);
 
 // Рендерим пины и кладём в контейнер
-for (var i = 0; i < objects.length; i++) {
-  fragment.appendChild(renderPin(objects[i]));
-}
-pinContainer.appendChild(fragment);
-fragment.innerHTML = '';
+// for (var i = 0; i < objects.length; i++) {
+//   fragment.appendChild(renderPin(objects[i]));
+// }
+// pinContainer.appendChild(fragment);
+// fragment.innerHTML = '';
 
 
-// Рендерим первое объявление
-fragment.appendChild(renderCard(objects[0]));
-cardParent.insertBefore(fragment, cardNextElement);
-
-
+// fragment.appendChild(renderCard(objects[0]));
+// cardParent.insertBefore(fragment, cardNextElement)
