@@ -260,9 +260,8 @@ var checkCapacity = function (rooms, capacity) {
     case capacity > rooms:
       message = 'Слишком много гостей';
       break;
-  };
+  }
   capacitySelect.setCustomValidity(message);
-  // capacitySelect.reportValidity();
 };
 
 var checkPrice = function (type, price) {
@@ -286,7 +285,6 @@ var checkPrice = function (type, price) {
       break;
   }
   priceInput.setCustomValidity(message);
-  priceInput.reportValidity();
 };
 
 var updatePriceInputPlaceholder = function (type) {
@@ -316,14 +314,13 @@ titleInput.addEventListener('input', function (evt) {
   var message = '';
 
   if (titleInput.validity.tooShort) {
-    message = 'Залоговок должен быть не менее 30 символов.';
+    message = 'Заголовок должен быть не менее 30 символов.';
   } else if (titleInput.validity.tooLong) {
-    message = 'Залоговок должен быть не более 100 символов.';
+    message = 'Заголовок должен быть не более 100 символов.';
   } else if (titleInput.validity.valueMissing) {
     message = 'Обязательное поле';
   }
   titleInput.setCustomValidity(message);
-  // titleInput.reportValidity();
 });
 
 titleInput.addEventListener('invalid', function (evt) {
@@ -361,19 +358,19 @@ var mainPinMousedownHandler = function (evt) {
   if (evt.button === 0) {
     activatePage();
   }
-}
+};
 
 var mainPinKeyDownHandler = function (evt) {
   if (evt.keyCode === 13) {
     activatePage();
   }
-}
+};
 
 window.onload = function () {
   updateAddressInputValue(mainPin);
   toggleDisableForm(adForm);
   updatePriceInputPlaceholder(typeSelect.value);
-  capacitySelect.value = 1;
+  checkCapacity(roomNumberSelect.value, capacitySelect.value);
 };
 
 mainPin.addEventListener('mousedown', mainPinMousedownHandler);
