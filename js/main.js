@@ -40,7 +40,22 @@ var PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 
+var MAIN_PIN_POINTER_HEIGHT = 22;
+var MAIN_PIN_IMAGE_TRANSLATE_Y = -7;
+
 var map = document.querySelector('.map');
+var adForm = document.querySelector('.ad-form');
+var mapFilters = document.querySelector('.map__filters');
+var mainPin = document.querySelector('.map__pin--main');
+var mainPinImage = mainPin.querySelector('img');
+var titleInput = document.querySelector('#title');
+var roomNumberSelect = document.querySelector('#room_number');
+var capacitySelect = document.querySelector('#capacity');
+var priceInput = document.querySelector('#price');
+var typeSelect = document.querySelector('#type');
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
+
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
@@ -50,36 +65,19 @@ var cardTemplate = document.querySelector('#card')
   .querySelector('.map__card');
 var cardParent = document.querySelector('.map');
 var cardElement = cardTemplate.cloneNode(true);
-var cardNextElement = cardParent.querySelector('.map__filters-container')
+var cardNextElement = cardParent.querySelector('.map__filters-container');
 var fragment = document.createDocumentFragment();
 
-// Подбор падежей существительного в зависимости от числительных
-var getNounCase = function (number, array) {
-  return (
-    number % 10 === 1 && number !== 11
-      ? array[0]
-      : (number % 10 === 2 && number !== 12) || (number % 10 === 3 && number !== 13) || (number % 10 === 4 && number !== 14)
-        ? array[1]
-        : array[2] || array[1])
-}
 
-// Cлучайное число в интервале включительно
-var getRandomRangeNumber = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+/* СОЗДАНИЕ МАССИВА ОБЪЕКТОВ *******************************************************************************/
 
-// Получаем упорядоченный массив случайной длины случайных элементов исходного массива (для features и photos)
-var getRandomArrayElements = function (arr) {
-  var res = [];
-  var len = getRandomRangeNumber(1, arr.length);
-  while (res.length < len) {
-    var randomIndex = getRandomRangeNumber(0, arr.length - 1);
-    if (res.indexOf(randomIndex) === -1) {
-      res.push(randomIndex);
-    }
+var createObjectArray = function (number) {
+  var objects = [];
+  for (var i = 0; i < number; i++) {
+    objects.push(createObject(i));
   }
-  return res.sort(function (a, b) { return a - b }).map(function (a) { return arr[a] });
-}
+  return objects;
+};
 
 var createObject = function (index) {
   var locationX = getRandomRangeNumber(0, map.offsetWidth);
@@ -106,15 +104,43 @@ var createObject = function (index) {
       photos: getRandomArrayElements(PHOTOS),
     }
   }
+};
+
+// Cлучайное число в интервале включительно
+var getRandomRangeNumber = function (min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+// Получаем упорядоченный массив случайной длины случайных элементов исходного массива (для features и photos)
+var getRandomArrayElements = function (arr) {
+  var res = [];
+  var len = getRandomRangeNumber(1, arr.length);
+  while (res.length < len) {
+    var randomIndex = getRandomRangeNumber(0, arr.length - 1);
+    if (res.indexOf(randomIndex) === -1) {
+      res.push(randomIndex);
+    }
+  }
+  return res.sort(function (a, b) { return a - b }).map(function (a) { return arr[a] });
+};
+
+
+/* ЗАПОЛНЕНИЕ КАРТЫ *******************************************************************************/
+
+var addPinsToMap = function () {
+  var objects = createObjectArray(8);
+  renderAllPins(objects);
+  fragment.appendChild(renderCard(objects[0]));
+  cardParent.insertBefore(fragment, cardNextElement);
 }
 
-var createObjectArray = function (number) {
-  var objects = [];
-  for (var i = 0; i < number; i++) {
-    objects.push(createObject(i));
-  }
-  return objects;
-}
+var renderAllPins = function (objects) {
+  objects.forEach(function (a) {
+    fragment.appendChild(renderPin(a))
+  });
+  pinContainer.appendChild(fragment);
+  fragment.innerHTML = '';
+};
 
 var renderPin = function (object) {
   var pinElement = pinTemplate.cloneNode(true);
@@ -124,7 +150,7 @@ var renderPin = function (object) {
   pinImage.src = object.author.avatar;
   pinImage.alt = object.offer.title;
   return pinElement;
-}
+};
 
 var renderCard = function (object) {
   var rooms = object.offer.rooms;
@@ -140,29 +166,28 @@ var renderCard = function (object) {
   cardElement.querySelector('.popup__description').textContent = object.offer.description;
   updateFeaturesList(object);
   updatePhotosList(object);
-
   return cardElement;
-}
+};
 
-function updateFeaturesList(object) {
+var updateFeaturesList = function (object) {
   var featuresListItems = cardElement.querySelectorAll('.popup__features li');
   var features = object.offer.features;
   for (var i = 0; i < featuresListItems.length; i++) {
     featuresListItems[i].classList.add('hidden');
     checkFeaturesListItem(featuresListItems[i], features);
   }
-}
+};
 
-function checkFeaturesListItem(featuresListItem, featuresArray) {
+var checkFeaturesListItem = function (featuresListItem, featuresArray) {
   var feature = featuresArray.some(function (item) {
     return featuresListItem.classList.contains('popup__feature--' + item);
   });
   if (feature) {
     featuresListItem.classList.remove('hidden');
   }
-}
+};
 
-function updatePhotosList(object) {
+var updatePhotosList = function (object) {
   var photos = object.offer.photos;
   var photosContainer = cardElement.querySelector('.popup__photos');
   var imagesFragment = document.createDocumentFragment();
@@ -175,23 +200,178 @@ function updatePhotosList(object) {
   for (var j = 0; j < photos.length; j++) {
     photosContainer.querySelector('img:nth-child(' + (j + 1) + ')').src = photos[j];
   }
+};
+
+var getNounCase = function (number, array) {
+  return (
+    number % 10 === 1 && number !== 11
+      ? array[0]
+      : (number % 10 === 2 && number !== 12) || (number % 10 === 3 && number !== 13) || (number % 10 === 4 && number !== 14)
+        ? array[1]
+        : array[2] || array[1])
+};
+
+/* АКТИВАЦИЯ СТРАНИЦЫ *******************************************************************************/
+
+var activatePage = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  mapFilters.classList.remove('map__filters--disabled');
+  toggleDisableForm(adForm);
+  updateAddressInputValue(mainPin);
+  addPinsToMap();
+  mainPin.removeEventListener('mousedown', mainPinMousedownHandler);
+  mainPin.removeEventListener('keydown', mainPinKeyDownHandler);
+};
+
+var toggleDisableForm = function (form) {
+  form.querySelectorAll('fieldset').forEach(function (a) {
+    a.disabled = !a.disabled;
+  });
+};
+
+var updateAddressInputValue = function (pin) {
+  var pinX = Math.trunc(pin.offsetLeft + pin.offsetWidth / 2);
+  var pinY = Math.trunc(pin.offsetTop + pin.offsetHeight);
+
+  if (!map.classList.contains('map--faded') && pin === mainPin) {
+    pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight + MAIN_PIN_POINTER_HEIGHT);
+  } else if (map.classList.contains('map--faded')) {
+    pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight / 2);
+  }
+  document.querySelector('#address').value = pinX + ', ' + pinY;
+};
+
+/* ВАЛИДАЦИЯ ФОРМЫ *******************************************************************************/
+
+
+var checkCapacity = function (rooms, capacity) {
+  var message = '';
+  rooms = parseInt(rooms);
+  capacity = parseInt(capacity);
+
+  switch (true) {
+    case rooms === 100 && capacity !== 0:
+      message = 'Этот дом не для гостей';
+      break;
+    case rooms !== 100 && capacity === 0:
+      message = 'Укажите количество гостей';
+      break;
+    case capacity > rooms:
+      message = 'Слишком много гостей';
+      break;
+  }
+  capacitySelect.setCustomValidity(message);
+};
+
+var checkPrice = function (type, price) {
+  var message = '';
+
+  if (!price) {
+    message = 'Обязательное поле';
+  } else if (price > 1000000) {
+    message = 'Цена не может быть выше 1 000 000 ₽';
+  }
+
+  switch (true) {
+    case (type === 'flat' && price < 1000):
+      message = 'Цена не может быть ниже 1 000 ₽';
+      break;
+    case (type === 'house' && price < 5000):
+      message = 'Цена не может быть ниже 5 000 ₽';
+      break;
+    case (type === 'palace' && price < 10000):
+      message = 'Цена не может быть ниже 10 000 ₽';
+      break;
+  }
+  priceInput.setCustomValidity(message);
+};
+
+var updatePriceInputPlaceholder = function (type) {
+  var placeholder = 0;
+
+  switch (type) {
+    case 'flat':
+      placeholder = '1000';
+      break;
+    case 'house':
+      placeholder = '5000';
+      break;
+    case 'palace':
+      placeholder = '10000';
+      break;
+  }
+  priceInput.placeholder = placeholder;
+};
+
+var checkTimes = function (target) {
+  target === timeInSelect
+    ? timeOutSelect.value = timeInSelect.value
+    : timeInSelect.value = timeOutSelect.value;
 }
 
-map.classList.remove('map--faded');
+titleInput.addEventListener('input', function (evt) {
+  var message = '';
 
-// Создаём массив объектов
-var objects = createObjectArray(8);
+  if (titleInput.validity.tooShort) {
+    message = 'Заголовок должен быть не менее 30 символов.';
+  } else if (titleInput.validity.tooLong) {
+    message = 'Заголовок должен быть не более 100 символов.';
+  } else if (titleInput.validity.valueMissing) {
+    message = 'Обязательное поле';
+  }
+  titleInput.setCustomValidity(message);
+});
 
-// Рендерим пины и кладём в контейнер
-for (var i = 0; i < objects.length; i++) {
-  fragment.appendChild(renderPin(objects[i]));
-}
-pinContainer.appendChild(fragment);
-fragment.innerHTML = '';
+titleInput.addEventListener('invalid', function (evt) {
+  if (titleInput.validity.valueMissing) {
+    titleInput.setCustomValidity('Обязательное поле');
+  }
+});
 
+priceInput.addEventListener('input', function (evt) {
+  checkPrice(typeSelect.value, priceInput.value);
+});
 
-// Рендерим первое объявление
-fragment.appendChild(renderCard(objects[0]));
-cardParent.insertBefore(fragment, cardNextElement);
+priceInput.addEventListener('invalid', function (evt) {
+  if (priceInput.validity.valueMissing) {
+    priceInput.setCustomValidity('Обязательное поле');
+  }
+});
 
+adForm.addEventListener('change', function (evt) {
+  if (evt.target === capacitySelect || evt.target === roomNumberSelect) {
+    checkCapacity(roomNumberSelect.value, capacitySelect.value);
+  }
 
+  if (evt.target === typeSelect) {
+    updatePriceInputPlaceholder(typeSelect.value);
+    checkPrice(typeSelect.value, priceInput.value);
+  }
+
+  if (evt.target === timeInSelect || evt.target === timeOutSelect) {
+    checkTimes(evt.target);
+  }
+});
+
+var mainPinMousedownHandler = function (evt) {
+  if (evt.button === 0) {
+    activatePage();
+  }
+};
+
+var mainPinKeyDownHandler = function (evt) {
+  if (evt.keyCode === 13) {
+    activatePage();
+  }
+};
+
+window.onload = function () {
+  updateAddressInputValue(mainPin);
+  toggleDisableForm(adForm);
+  updatePriceInputPlaceholder(typeSelect.value);
+  checkCapacity(roomNumberSelect.value, capacitySelect.value);
+};
+
+mainPin.addEventListener('mousedown', mainPinMousedownHandler);
+mainPin.addEventListener('keydown', mainPinKeyDownHandler);
