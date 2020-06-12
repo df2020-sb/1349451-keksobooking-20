@@ -41,6 +41,7 @@ var PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 
 var MAIN_PIN_POINTER_HEIGHT = 22;
+var MAIN_PIN_IMAGE_TRANSLATE_Y = -7;
 
 var map = document.querySelector('.map');
 var adForm = document.querySelector('.ad-form');
@@ -231,21 +232,14 @@ var toggleDisableForm = function (form) {
 
 var updateAddressInputValue = function (pin) {
   var pinX = Math.trunc(pin.offsetLeft + pin.offsetWidth / 2);
+  var pinY = Math.trunc(pin.offsetTop + pin.offsetHeight);
 
   if (!map.classList.contains('map--faded') && pin === mainPin) {
-    pinY = Math.trunc(mainPin.offsetTop + getTranslateY(mainPinImage) + mainPinImage.offsetHeight + MAIN_PIN_POINTER_HEIGHT);
+    pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight + MAIN_PIN_POINTER_HEIGHT);
   } else if (map.classList.contains('map--faded')) {
-    pinY = Math.trunc(mainPin.offsetTop + getTranslateY(mainPinImage) + mainPinImage.offsetHeight / 2);
-  } else {
-    var pinY = Math.trunc(pin.offsetTop + pin.offsetHeight);
+    pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight / 2);
   }
   document.querySelector('#address').value = pinX + ', ' + pinY;
-};
-
-var getTranslateY = function (element) {
-  var transform = window.getComputedStyle(element).transform;
-  var matrix = transform.match(/matrix.*\((.+)\)/)[1].split(', ');
-  return parseInt(matrix[5]);
 };
 
 /* ВАЛИДАЦИЯ ФОРМЫ *******************************************************************************/
@@ -268,12 +262,13 @@ var checkCapacity = function (rooms, capacity) {
       break;
   };
   capacitySelect.setCustomValidity(message);
+  // capacitySelect.reportValidity();
 };
 
 var checkPrice = function (type, price) {
   var message = '';
 
-  if (priceInput.validity.valueMissing) {
+  if (!price) {
     message = 'Обязательное поле';
   } else if (price > 1000000) {
     message = 'Цена не может быть выше 1 000 000 ₽';
@@ -289,7 +284,7 @@ var checkPrice = function (type, price) {
     case (type === 'palace' && price < 10000):
       message = 'Цена не может быть ниже 10 000 ₽';
       break;
-  };
+  }
   priceInput.setCustomValidity(message);
   priceInput.reportValidity();
 };
@@ -309,7 +304,7 @@ var updatePriceInputPlaceholder = function (type) {
       break;
   }
   priceInput.placeholder = placeholder;
-}
+};
 
 var checkTimes = function (target) {
   target === timeInSelect
@@ -328,15 +323,12 @@ titleInput.addEventListener('input', function (evt) {
     message = 'Обязательное поле';
   }
   titleInput.setCustomValidity(message);
-  titleInput.reportValidity();
+  // titleInput.reportValidity();
 });
 
 titleInput.addEventListener('invalid', function (evt) {
-  var message = ''
   if (titleInput.validity.valueMissing) {
-    message = 'Обязательное поле';
-    titleInput.setCustomValidity(message);
-    titleInput.reportValidity();
+    titleInput.setCustomValidity('Обязательное поле');
   }
 });
 
@@ -345,11 +337,8 @@ priceInput.addEventListener('input', function (evt) {
 });
 
 priceInput.addEventListener('invalid', function (evt) {
-  var message = '';
   if (priceInput.validity.valueMissing) {
-    message = 'Обязательное поле';
-    priceInput.setCustomValidity(message);
-    priceInput.reportValidity();
+    priceInput.setCustomValidity('Обязательное поле');
   }
 });
 
@@ -384,6 +373,7 @@ window.onload = function () {
   updateAddressInputValue(mainPin);
   toggleDisableForm(adForm);
   updatePriceInputPlaceholder(typeSelect.value);
+  capacitySelect.value = 1;
 };
 
 mainPin.addEventListener('mousedown', mainPinMousedownHandler);
