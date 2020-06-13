@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var TITLES = [
   'Квартира студия в таунхаусе 40 м2. Рядом с морем.',
@@ -16,7 +16,7 @@ var MAX_PRICE = 30000;
 var MAX_GUESTS = 10;
 var GUESTS_CASES = ['гостя', 'гостей'];
 var MAX_ROOMS = 12;
-var ROOMS_CASES = ['комната', 'комнаты', 'комнат']
+var ROOMS_CASES = ['комната', 'комнаты', 'комнат'];
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var TYPE_TRANSLATION = {
   'palace': 'Дворец',
@@ -71,7 +71,7 @@ var cardNextElement = cardParent.querySelector('.map__filters-container');
 var photosContainer = cardElement.querySelector('.popup__photos');
 var photoTemplate = document.querySelector('#card')
   .content
-  .querySelector('.popup__photos img')
+  .querySelector('.popup__photos img');
 
 var fragment = document.createDocumentFragment();
 
@@ -109,7 +109,7 @@ var createObject = function (index) {
       description: DESCRIPTIONS[index],
       photos: getRandomArrayElements(PHOTOS),
     },
-  }
+  };
 };
 
 // Cлучайное число в интервале включительно
@@ -127,7 +127,7 @@ var getRandomArrayElements = function (arr) {
       res.push(randomIndex);
     }
   }
-  return res.sort(function (a, b) { return a - b }).map(function (a) { return arr[a] });
+  return res.sort(function (a, b) { return a - b; }).map(function (a) { return arr[a]; });
 };
 
 
@@ -154,7 +154,7 @@ var onEscPress = function (evt) {
 
 var renderAllPins = function (objects) {
   objects.forEach(function (a) {
-    fragment.appendChild(renderPin(a))
+    fragment.appendChild(renderPin(a));
   });
   pinContainer.appendChild(fragment);
   fragment.innerHTML = '';
@@ -169,7 +169,7 @@ var renderPin = function (object) {
   pinImage.alt = object.offer.title;
 
   pinElement.addEventListener('click', function () {
-    showCard(object)
+    showCard(object);
   });
 
   return pinElement;
@@ -239,7 +239,7 @@ var getNounCase = function (number, array) {
       ? array[0]
       : (number % 10 === 2 && number !== 12) || (number % 10 === 3 && number !== 13) || (number % 10 === 4 && number !== 14)
         ? array[1]
-        : array[2] || array[1])
+        : array[2] || array[1]);
 };
 
 /* АКТИВАЦИЯ СТРАНИЦЫ *******************************************************************************/
@@ -339,7 +339,7 @@ var checkTimes = function (target) {
   target === timeInSelect
     ? timeOutSelect.value = timeInSelect.value
     : timeInSelect.value = timeOutSelect.value;
-}
+};
 
 titleInput.addEventListener('input', function (evt) {
   var message = '';
