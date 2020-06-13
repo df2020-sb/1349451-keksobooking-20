@@ -136,18 +136,18 @@ var getRandomArrayElements = function (arr) {
 var addPinsToMap = function () {
   var objects = createObjectArray(8);
   renderAllPins(objects);
-  showCard(objects[0])
-}
+  showCard(objects[0]);
+};
 
 var showCard = function (object) {
   var card = renderCard(object);
   cardParent.insertBefore(card, cardNextElement);
   card.classList.remove('hidden');
-}
+};
 
 var onEscPress = function (evt) {
   if (evt.keyCode === 27) {
-    var card = document.querySelector('.map__card')
+    var card = document.querySelector('.map__card');
     card.classList.add('hidden');
   }
 };
