@@ -16,7 +16,7 @@
     var mapFilters = document.querySelector('.map__filters');
     var mainPin = document.querySelector('.map__pin--main');
 
-    var objects = window.createObjectArray(8);
+    var objects = window.data.createObjects(8);
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -25,9 +25,9 @@
     window.form.toggleDisableForm();
     window.form.updateAddressInputValue(mainPin);
 
-    window.renderPins(objects);
-    window.renderCard(objects[0]);
+    window.pins.render(objects);
+    window.card.render(objects[0]);
 
-    window.removeMainPinEvents();
+    window.mainPin.removeEvents();
   };
 })();

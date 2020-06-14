@@ -3,23 +3,28 @@
 
   var mainPin = document.querySelector('.map__pin--main');
 
-  var mainPinMousedownHandler = function (evt) {
+  var mousedownHandler = function (evt) {
     if (evt.button === 0) {
       window.activatePage();
     }
   };
 
-  var mainPinKeyDownHandler = function (evt) {
+  var keyDownHandler = function (evt) {
     if (evt.keyCode === 13) {
       window.activatePage();
     }
   };
 
-  mainPin.addEventListener('mousedown', mainPinMousedownHandler);
-  mainPin.addEventListener('keydown', mainPinKeyDownHandler);
-
-  window.removeMainPinEvents = function () {
-    mainPin.removeEventListener('mousedown', mainPinMousedownHandler);
-    mainPin.removeEventListener('keydown', mainPinKeyDownHandler);
+  var removeEvents = function () {
+    mainPin.removeEventListener('mousedown', mousedownHandler);
+    mainPin.removeEventListener('keydown', keyDownHandler);
   };
+
+  mainPin.addEventListener('mousedown', mousedownHandler);
+  mainPin.addEventListener('keydown', keyDownHandler);
+
+  window.mainPin = {
+    removeEvents: removeEvents,
+  };
+
 })();

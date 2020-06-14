@@ -48,7 +48,7 @@
     photosContainer.appendChild(photosFragment);
   };
 
-  window.renderCard = function (object) {
+  var renderCard = function (object) {
     var rooms = object.offer.rooms;
     var guests = object.offer.guests;
     var closeButton = cardElement.querySelector('.popup__close');
@@ -75,4 +75,9 @@
     cardParent.insertBefore(cardElement, cardNextElement);
     cardElement.classList.remove('hidden');
   };
+
+  window.card = {
+    render: renderCard,
+  };
+
 })();

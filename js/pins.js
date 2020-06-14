@@ -13,16 +13,20 @@
     pinImage.src = object.author.avatar;
     pinImage.alt = object.offer.title;
     pinElement.addEventListener('click', function () {
-      window.renderCard(object);
+      window.card.render(object);
     });
     return pinElement;
   };
 
-  window.renderPins = function (objects) {
+  var renderPins = function (objects) {
     objects.forEach(function (a) {
       fragment.appendChild(renderPin(a));
     });
     pinContainer.appendChild(fragment);
     fragment.innerHTML = '';
+  };
+
+  window.pins = {
+    render: renderPins,
   };
 })();

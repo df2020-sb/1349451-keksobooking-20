@@ -134,28 +134,29 @@
     }
   });
 
+  var updateAddressInputValue = function (pin) {
+    var pinX = Math.trunc(pin.offsetLeft + pin.offsetWidth / 2);
+    var pinY = Math.trunc(pin.offsetTop + pin.offsetHeight);
+
+    if (!map.classList.contains('map--faded') && pin === mainPin) {
+      pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight + MAIN_PIN_POINTER_HEIGHT);
+    } else if (map.classList.contains('map--faded')) {
+      pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight / 2);
+    }
+    document.querySelector('#address').value = pinX + ', ' + pinY;
+  };
+
+  var toggleDisableForm = function () {
+    adForm.querySelectorAll('fieldset').forEach(function (a) {
+      a.disabled = !a.disabled;
+    });
+  };
 
   window.form = {
-
     checkCapacity: checkCapacity,
     updatePriceInputPlaceholder: updatePriceInputPlaceholder,
-
-    updateAddressInputValue: function (pin) {
-      var pinX = Math.trunc(pin.offsetLeft + pin.offsetWidth / 2);
-      var pinY = Math.trunc(pin.offsetTop + pin.offsetHeight);
-
-      if (!map.classList.contains('map--faded') && pin === mainPin) {
-        pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight + MAIN_PIN_POINTER_HEIGHT);
-      } else if (map.classList.contains('map--faded')) {
-        pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight / 2);
-      }
-      document.querySelector('#address').value = pinX + ', ' + pinY;
-    },
-
-    toggleDisableForm: function () {
-      adForm.querySelectorAll('fieldset').forEach(function (a) {
-        a.disabled = !a.disabled;
-      });
-    }
+    toggleDisableForm: toggleDisableForm,
+    updateAddressInputValue: updateAddressInputValue,
   };
+
 })();

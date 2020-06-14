@@ -64,11 +64,16 @@
     };
   };
 
-  window.createObjectArray = function (number) {
+  var createObjectArray = function (number) {
     var objects = [];
     for (var i = 0; i < number; i++) {
       objects.push(createObject(i));
     }
     return objects;
   };
+
+  window.data = {
+    createObjects: createObjectArray,
+  };
+
 })();
