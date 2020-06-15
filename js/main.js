@@ -4,10 +4,8 @@
   window.onload = function () {
     var mainPin = document.querySelector('.map__pin--main');
     document.addEventListener('keydown', window.utils.isEscPressed);
-    window.form.updateAddressInputValue(mainPin);
     window.form.toggleDisableForm();
-    window.form.updatePriceInputPlaceholder();
-    window.form.checkCapacity();
+    window.form.updateAddressInputValue(mainPin);
   };
 
   window.activatePage = function () {
@@ -24,6 +22,8 @@
 
     window.form.toggleDisableForm();
     window.form.updateAddressInputValue(mainPin);
+    window.form.updatePriceInputPlaceholder();
+    window.form.checkCapacity();
 
     window.pins.render(objects);
     window.card.render(objects[0]);
