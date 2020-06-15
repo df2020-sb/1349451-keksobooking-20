@@ -26,7 +26,15 @@
     fragment.innerHTML = '';
   };
 
+  var getPosition = function (pin) {
+    var x = Math.trunc(pin.offsetLeft + pin.offsetWidth / 2);
+    var y = Math.trunc(pin.offsetTop + pin.offsetHeight);
+    return { x, y };
+  };
+
   window.pins = {
     render: renderPins,
+    position: getPosition,
   };
+
 })();
