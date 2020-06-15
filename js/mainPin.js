@@ -15,7 +15,6 @@
   var maxX = minX + map.offsetWidth;
 
 
-
   var getPointerPosition = function () {
     var x = Math.trunc(mainPin.offsetLeft + WIDTH / 2);
     var y = Math.trunc(mainPin.offsetTop + IMAGE_TRANSLATE_Y + IMAGE_HEIGHT / 2);
@@ -65,30 +64,25 @@
       removeEvents();
     };
 
-    var onMouseOut = function (evt) {
-      removeEvents();
-    };
-
     var removeEvents = function (evt) {
-      mainPin.removeEventListener('mousemove', onMouseMove);
-      mainPin.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     };
 
     var updatePosition = function (evt) {
       var newX = mainPin.offsetLeft - (cursor.x - evt.clientX);
       var newY = mainPin.offsetTop - (cursor.y - evt.clientY);
       mainPin.style.left = Math.max(minX, Math.min(newX, maxX)) + 'px';
-      mainPin.style.top = Math.max(MIN_Y, Math.min(newY, MAX_Y)) + 'px';
+      mainPin.style.top = Math.max(MIN_Y - FULL_HEIGHT, Math.min(newY, MAX_Y - FULL_HEIGHT)) + 'px';
       window.form.updateAddressInputValue();
     };
 
-    mainPin.addEventListener('mouseout', onMouseOut);
-    mainPin.addEventListener('mousemove', onMouseMove);
-    mainPin.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   };
 
-  mainPin.addEventListener('mousedown', mousedownHandler);
-  mainPin.addEventListener('keydown', keyDownHandler);
+  document.addEventListener('mousedown', mousedownHandler);
+  document.addEventListener('keydown', keyDownHandler);
 
   window.mainPin = {
     removeKeydownEvent: removeKeydownEvent,

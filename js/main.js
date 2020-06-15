@@ -2,7 +2,6 @@
 (function () {
 
   window.onload = function () {
-    document.addEventListener('keydown', window.utils.isEscPressed);
     window.form.toggleDisableForm();
     window.form.updateAddressInputValue();
   };
