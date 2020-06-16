@@ -74,6 +74,8 @@
 
     cardParent.insertBefore(cardElement, cardNextElement);
     cardElement.classList.remove('hidden');
+
+    document.addEventListener('keydown', window.utils.isEscPressed);
   };
 
   window.card = {

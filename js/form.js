@@ -1,14 +1,6 @@
 'use strict';
 (function () {
 
-
-  var MAIN_PIN_POINTER_HEIGHT = 22;
-  var MAIN_PIN_IMAGE_TRANSLATE_Y = -7;
-
-  var map = document.querySelector('.map');
-  var mainPin = document.querySelector('.map__pin--main');
-  var mainPinImage = mainPin.querySelector('img');
-
   var adForm = document.querySelector('.ad-form');
   var titleInput = document.querySelector('#title');
   var roomNumberSelect = document.querySelector('#room_number');
@@ -17,9 +9,6 @@
   var typeSelect = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
-
-
-  // Проверки
 
   var checkCapacity = function () {
     var message = '';
@@ -87,8 +76,17 @@
       : timeInSelect.value = timeOutSelect.value;
   };
 
+  var updateAddressInputValue = function () {
+    var x = window.mainPin.position().x;
+    var y = window.mainPin.position().y;
+    document.querySelector('#address').value = x + ', ' + y;
+  };
 
-  // События
+  var toggleDisableForm = function () {
+    adForm.querySelectorAll('fieldset').forEach(function (a) {
+      a.disabled = !a.disabled;
+    });
+  };
 
   titleInput.addEventListener('input', function (evt) {
     var message = '';
@@ -133,24 +131,6 @@
       checkTimes(evt.target);
     }
   });
-
-  var updateAddressInputValue = function (pin) {
-    var pinX = Math.trunc(pin.offsetLeft + pin.offsetWidth / 2);
-    var pinY = Math.trunc(pin.offsetTop + pin.offsetHeight);
-
-    if (!map.classList.contains('map--faded') && pin === mainPin) {
-      pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight + MAIN_PIN_POINTER_HEIGHT);
-    } else if (map.classList.contains('map--faded')) {
-      pinY = Math.trunc(mainPin.offsetTop + MAIN_PIN_IMAGE_TRANSLATE_Y + mainPinImage.offsetHeight / 2);
-    }
-    document.querySelector('#address').value = pinX + ', ' + pinY;
-  };
-
-  var toggleDisableForm = function () {
-    adForm.querySelectorAll('fieldset').forEach(function (a) {
-      a.disabled = !a.disabled;
-    });
-  };
 
   window.form = {
     checkCapacity: checkCapacity,

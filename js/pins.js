@@ -26,7 +26,9 @@
     fragment.innerHTML = '';
   };
 
+
   window.pins = {
     render: renderPins,
   };
+
 })();
