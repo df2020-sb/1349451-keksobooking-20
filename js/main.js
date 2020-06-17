@@ -1,6 +1,15 @@
 'use strict';
 (function () {
 
+  var onLoadSuccess = function (objects) {
+    window.pins.render(objects);
+    window.card.render(objects[0]);
+  };
+
+  var onError = function (errorMessage) {
+    window.errorBanner.render(errorMessage);
+  };
+
   window.onload = function () {
     window.form.toggleDisableForm();
     window.form.updateAddressInputValue();
@@ -10,7 +19,6 @@
     var map = document.querySelector('.map');
     var adForm = document.querySelector('.ad-form');
     var mapFilters = document.querySelector('.map__filters');
-    var objects = window.data.createObjects(8);
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -21,9 +29,10 @@
     window.form.updatePriceInputPlaceholder();
     window.form.checkCapacity();
 
-    window.pins.render(objects);
-    window.card.render(objects[0]);
+    window.errorBanner.remove();
+    window.backend.load(onLoadSuccess, onError);
 
     window.mainPin.removeKeydownEvent();
   };
+
 })();

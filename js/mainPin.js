@@ -11,7 +11,7 @@
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
 
-  var minX = parseInt(getComputedStyle(map).left) - WIDTH / 2;
+  var minX = - WIDTH / 2;
   var maxX = minX + map.offsetWidth;
 
 
