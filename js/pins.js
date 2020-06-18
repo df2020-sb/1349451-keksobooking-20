@@ -25,8 +25,6 @@
     pinContainer.appendChild(fragment);
     fragment.innerHTML = '';
   };
-
-
   window.pins = {
     render: renderPins,
   };
