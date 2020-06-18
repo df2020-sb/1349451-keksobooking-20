@@ -3,7 +3,6 @@
 
   var onLoadSuccess = function (objects) {
     window.pins.render(objects);
-    window.card.render(objects[0]);
   };
 
   var onError = function (errorMessage) {
