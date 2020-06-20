@@ -88,6 +88,12 @@
     });
   };
 
+  var onSubmit = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(adForm), window.backend.onSaveSuccess, window.backend.onError);
+  };
+
+
   titleInput.addEventListener('input', function (evt) {
     var message = '';
 
@@ -132,11 +138,18 @@
     }
   });
 
+  adForm.addEventListener('submit', onSubmit);
+  document.querySelector('.ad-form__reset').addEventListener('click', function (evt) {
+    adForm.reset();
+    updateAddressInputValue();
+  });
+
   window.form = {
     checkCapacity: checkCapacity,
     updatePriceInputPlaceholder: updatePriceInputPlaceholder,
     toggleDisableForm: toggleDisableForm,
     updateAddressInputValue: updateAddressInputValue,
+    onSubmit: onSubmit,
   };
 
 })();

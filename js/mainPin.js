@@ -34,12 +34,15 @@
     mainPin.removeEventListener('keydown', keyDownHandler);
   };
 
-  var mousedownHandler = function (evt) {
+  var mainPinClickHandler = function (evt) {
     if (evt.button === 0 && map.classList.contains('map--faded')) {
       window.activatePage();
-    } else if (evt.button === 0) {
+    };
+  };
+
+  var mousedownHandler = function (evt) {
+    if (!map.classList.contains('map--faded'))
       dragMainPin(evt);
-    }
   };
 
 
@@ -83,6 +86,8 @@
 
   document.addEventListener('mousedown', mousedownHandler);
   document.addEventListener('keydown', keyDownHandler);
+
+  mainPin.addEventListener('click', mainPinClickHandler);
 
   window.mainPin = {
     removeKeydownEvent: removeKeydownEvent,

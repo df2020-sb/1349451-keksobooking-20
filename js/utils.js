@@ -28,9 +28,20 @@
   };
 
   var isEscPressed = function (evt) {
-    if (evt.keyCode === 27) {
-      var card = document.querySelector('.map__card');
+    var banner = document.querySelector('.banner');
+    var card = document.querySelector('.map__card');
+    if (evt.keyCode === 27 && banner) {
+      window.banner.remove();
+    }
+    if (evt.keyCode === 27 && card) {
       card.classList.add('hidden');
+    }
+  };
+
+  var isClicked = function (evt) {
+    var errorButton = document.querySelector('.error__button');
+    if (evt.target !== errorButton) {
+      window.banner.remove();
     }
   };
 
@@ -39,6 +50,7 @@
     getRandomArrayElements: getRandomArrayElements,
     getNounCase: getNounCase,
     isEscPressed: isEscPressed,
+    isClicked: isClicked,
   };
 
 })();
