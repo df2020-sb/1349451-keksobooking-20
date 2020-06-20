@@ -70,6 +70,12 @@
     priceInput.placeholder = placeholder;
   };
 
+
+  var reset = function (evt) {
+    adForm.reset();
+    updateAddressInputValue();
+  };
+
   var checkTimes = function (target) {
     target === timeInSelect
       ? timeOutSelect.value = timeInSelect.value
@@ -90,7 +96,7 @@
 
   var onSubmit = function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(adForm), window.backend.onSaveSuccess, window.backend.onError);
+    window.backend.save(new FormData(adForm), window.utils.onSaveSuccess, window.utils.onError);
   };
 
 
@@ -139,10 +145,7 @@
   });
 
   adForm.addEventListener('submit', onSubmit);
-  document.querySelector('.ad-form__reset').addEventListener('click', function (evt) {
-    adForm.reset();
-    updateAddressInputValue();
-  });
+  document.querySelector('.ad-form__reset').addEventListener('click', reset);
 
   window.form = {
     checkCapacity: checkCapacity,
@@ -150,6 +153,7 @@
     toggleDisableForm: toggleDisableForm,
     updateAddressInputValue: updateAddressInputValue,
     onSubmit: onSubmit,
+    reset: reset,
   };
 
 })();

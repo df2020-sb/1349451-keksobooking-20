@@ -2,7 +2,6 @@
 
 (function () {
   var banner;
-  var card = document.querySelector('.map__card');
   var adForm = document.querySelector('.ad-form');
   var requestType;
 
@@ -15,21 +14,20 @@
   var errorMessageContainer = errorBanner.querySelector('.error__message');
 
   var renderBanner = function (status, type, text) {
-
     requestType = type;
     banner = (status === 'success') ? successBanner : errorBanner;
     main.appendChild(banner);
     banner.classList.add('banner');
     document.addEventListener('keydown', window.utils.isEscPressed);
     document.addEventListener('mousedown', window.utils.isClicked);
-    errorButton.addEventListener('click', onErrorButtonClicked);
+    errorButton.addEventListener('click', onErrorButtonClick);
     errorMessageContainer.textContent = text || errorMessageContainer.textContent;
   };
 
-  var onErrorButtonClicked = function () {
+  var onErrorButtonClick = function () {
     requestType === 'post'
-      ? window.backend.save(new FormData(adForm), window.backend.onSaveSuccess, window.backend.onError)
-      : window.backend.load(window.backend.onLoadSuccess, window.backend.onError);
+      ? window.backend.save(new FormData(adForm), window.utils.onSaveSuccess, window.utils.onError)
+      : window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
     removeBanner();
   };
 

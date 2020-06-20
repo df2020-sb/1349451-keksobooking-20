@@ -14,7 +14,6 @@
   var minX = -WIDTH / 2;
   var maxX = minX + map.offsetWidth;
 
-
   var getPointerPosition = function () {
     var x = Math.trunc(mainPin.offsetLeft + WIDTH / 2);
     var y = Math.trunc(mainPin.offsetTop + IMAGE_TRANSLATE_Y + IMAGE_HEIGHT / 2);
@@ -37,12 +36,13 @@
   var mainPinClickHandler = function (evt) {
     if (evt.button === 0 && map.classList.contains('map--faded')) {
       window.activatePage();
-    };
+    }
   };
 
   var mousedownHandler = function (evt) {
-    if (!map.classList.contains('map--faded'))
+    if (!map.classList.contains('map--faded')) {
       dragMainPin(evt);
+    }
   };
 
 

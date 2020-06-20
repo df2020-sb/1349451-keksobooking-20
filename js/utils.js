@@ -45,12 +45,28 @@
     }
   };
 
+  var onLoadSuccess = function (objects) {
+    window.pins.render(objects);
+  };
+
+  var onSaveSuccess = function () {
+    window.disablePage();
+    window.banner.render('success');
+  };
+
+  var onError = function (type, errorMessage) {
+    window.banner.render('error', type, errorMessage);
+  };
+
   window.utils = {
     getRandomRangeNumber: getRandomRangeNumber,
     getRandomArrayElements: getRandomArrayElements,
     getNounCase: getNounCase,
     isEscPressed: isEscPressed,
     isClicked: isClicked,
+    onLoadSuccess: onLoadSuccess,
+    onSaveSuccess: onSaveSuccess,
+    onError: onError,
   };
 
 })();

@@ -3,20 +3,8 @@
 (function () {
 
   var URL_LOAD = 'https://javascript.pages.academy/keksobooking/data';
-  var URL_SAVE = 'https://javascript.pages.academy/keksobookin';
+  var URL_SAVE = 'https://javascript.pages.academy/keksobooking';
 
-
-  var onLoadSuccess = function (objects) {
-    window.pins.render(objects);
-  };
-
-  var onSaveSuccess = function () {
-    window.banner.render('success');
-  };
-
-  var onError = function (type, errorMessage) {
-    window.banner.render('error', type, errorMessage);
-  };
 
   var onResponse = function (xhr, type, onLoad, onError) {
     xhr.responseType = 'json';
@@ -70,9 +58,6 @@
   window.backend = {
     load: load,
     save: save,
-    onLoadSuccess: onLoadSuccess,
-    onSaveSuccess: onSaveSuccess,
-    onError: onError,
   };
 
 })();
