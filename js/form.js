@@ -70,6 +70,12 @@
     priceInput.placeholder = placeholder;
   };
 
+
+  var reset = function (evt) {
+    adForm.reset();
+    updateAddressInputValue();
+  };
+
   var checkTimes = function (target) {
     target === timeInSelect
       ? timeOutSelect.value = timeInSelect.value
@@ -87,6 +93,12 @@
       a.disabled = !a.disabled;
     });
   };
+
+  var onSubmit = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(adForm), window.utils.onSaveSuccess, window.utils.onError);
+  };
+
 
   titleInput.addEventListener('input', function (evt) {
     var message = '';
@@ -132,11 +144,16 @@
     }
   });
 
+  adForm.addEventListener('submit', onSubmit);
+  document.querySelector('.ad-form__reset').addEventListener('click', reset);
+
   window.form = {
     checkCapacity: checkCapacity,
     updatePriceInputPlaceholder: updatePriceInputPlaceholder,
     toggleDisableForm: toggleDisableForm,
     updateAddressInputValue: updateAddressInputValue,
+    onSubmit: onSubmit,
+    reset: reset,
   };
 
 })();
