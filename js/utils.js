@@ -48,7 +48,7 @@
   var onLoadSuccess = function (objects) {
     window.objects = objects;
     window.pins.render(window.objects);
-    document.querySelector('.map__filters').classList.remove('hidden');
+    window.activatePage();
   };
 
   var onSaveSuccess = function () {

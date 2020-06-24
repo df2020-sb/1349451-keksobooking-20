@@ -11,6 +11,7 @@
     'bungalo': 'Бунгало'
   };
 
+  var card;
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var cardParent = document.querySelector('.map');
   var cardElement = cardTemplate.cloneNode(true);
@@ -74,12 +75,20 @@
 
     cardParent.insertBefore(cardElement, cardNextElement);
     cardElement.classList.remove('hidden');
+    card = cardElement;
 
     document.addEventListener('keydown', window.utils.isEscPressed);
   };
 
+  var removeCard = function () {
+    if (card) {
+      card.remove();
+    }
+  };
+
   window.card = {
     render: renderCard,
+    remove: removeCard
   };
 
 })();

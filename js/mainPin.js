@@ -23,23 +23,23 @@
     return { x, y };
   };
 
-  var keyDownHandler = function (evt) {
+  var onKeyDown = function (evt) {
     if (evt.keyCode === 13) {
-      window.activatePage();
+      window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
     }
   };
 
   var removeKeydownEvent = function () {
-    mainPin.removeEventListener('keydown', keyDownHandler);
+    mainPin.removeEventListener('keydown', onKeyDown);
   };
 
-  var mainPinClickHandler = function (evt) {
+  var onMainPinClick = function (evt) {
     if (evt.button === 0 && map.classList.contains('map--faded')) {
-      window.activatePage();
+      window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
     }
   };
 
-  var mousedownHandler = function (evt) {
+  var onMouseDown = function (evt) {
     if (!map.classList.contains('map--faded') && evt.target.parentNode === mainPin) {
       dragMainPin(evt);
     }
@@ -84,10 +84,10 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  document.addEventListener('mousedown', mousedownHandler);
-  document.addEventListener('keydown', keyDownHandler);
+  document.addEventListener('mousedown', onMouseDown);
+  document.addEventListener('keydown', onKeyDown);
 
-  mainPin.addEventListener('click', mainPinClickHandler);
+  mainPin.addEventListener('click', onMainPinClick);
 
   window.mainPin = {
     removeKeydownEvent: removeKeydownEvent,

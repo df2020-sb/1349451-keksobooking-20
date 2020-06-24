@@ -12,20 +12,6 @@
     y: mainPin.offsetTop,
   };
 
-  window.removePinsAndCard = function () {
-    var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    var card = document.querySelector('article.map__card');
-    if (allPins.length > 0) {
-      allPins.forEach(function (pin) {
-        pin.remove();
-      });
-    }
-    if (card) {
-      card.remove();
-    }
-  };
-
-
   window.onload = function () {
     window.form.toggleDisableForm();
     window.form.updateAddressInputValue();
@@ -35,9 +21,7 @@
   window.activatePage = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
-
-    window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
-
+    mapFilters.classList.remove('hidden');
     window.form.toggleDisableForm();
     window.form.updateAddressInputValue();
     window.form.updatePriceInputPlaceholder();
@@ -53,7 +37,8 @@
     mainPin.style.left = mainPinPosition.x + 'px';
     mainPin.style.top = mainPinPosition.y + 'px';
 
-    removePinsAndCard();
+    window.pins.remove();
+    window.card.remove();
 
     window.form.reset();
     window.form.toggleDisableForm();

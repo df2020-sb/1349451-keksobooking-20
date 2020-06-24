@@ -21,18 +21,28 @@
   };
 
   var renderPins = function (objects) {
-    for (var i = 0; i < MAX_PINS_NUMBER; i++) {
-      if (objects[i]) {
-        fragment.appendChild(renderPin(objects[i]));
+    objects.slice(0, MAX_PINS_NUMBER).forEach(function (object) {
+      if (object) {
+        fragment.appendChild(renderPin(object));
       }
-    };
+    });
 
     pinContainer.appendChild(fragment);
     fragment.innerHTML = '';
   };
 
+  var removePins = function () {
+    var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    if (allPins.length > 0) {
+      allPins.forEach(function (pin) {
+        pin.remove();
+      });
+    }
+  };
+
   window.pins = {
     render: renderPins,
+    remove: removePins,
   };
 
 })();
