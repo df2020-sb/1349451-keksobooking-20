@@ -23,14 +23,14 @@
     return { x, y };
   };
 
-  var onKeyDown = function (evt) {
+  var onDocumentKeyDown = function (evt) {
     if (evt.keyCode === 13) {
       window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
     }
   };
 
   var removeKeydownEvent = function () {
-    mainPin.removeEventListener('keydown', onKeyDown);
+    mainPin.removeEventListener('keydown', onDocumentKeyDown);
   };
 
   var onMainPinClick = function (evt) {
@@ -39,7 +39,7 @@
     }
   };
 
-  var onMouseDown = function (evt) {
+  var onDocumentMouseDown = function (evt) {
     if (!map.classList.contains('map--faded') && evt.target.parentNode === mainPin) {
       dragMainPin(evt);
     }
@@ -84,8 +84,8 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  document.addEventListener('mousedown', onMouseDown);
-  document.addEventListener('keydown', onKeyDown);
+  document.addEventListener('mousedown', onDocumentMouseDown);
+  document.addEventListener('keydown', onDocumentKeyDown);
 
   mainPin.addEventListener('click', onMainPinClick);
 

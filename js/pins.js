@@ -22,22 +22,17 @@
 
   var renderPins = function (objects) {
     objects.slice(0, MAX_PINS_NUMBER).forEach(function (object) {
-      if (object) {
-        fragment.appendChild(renderPin(object));
-      }
+      fragment.appendChild(renderPin(object));
     });
-
     pinContainer.appendChild(fragment);
     fragment.innerHTML = '';
   };
 
   var removePins = function () {
     var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    if (allPins.length > 0) {
-      allPins.forEach(function (pin) {
-        pin.remove();
-      });
-    }
+    allPins.forEach(function (pin) {
+      pin.remove();
+    });
   };
 
   window.pins = {

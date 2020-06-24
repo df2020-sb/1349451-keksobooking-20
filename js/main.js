@@ -44,4 +44,5 @@
     window.form.toggleDisableForm();
     window.form.updateAddressInputValue();
   };
+
 })();
