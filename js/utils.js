@@ -46,7 +46,9 @@
   };
 
   var onLoadSuccess = function (objects) {
-    window.pins.render(objects);
+    window.objects = objects;
+    window.pins.render(window.objects);
+    window.activatePage();
   };
 
   var onSaveSuccess = function () {
