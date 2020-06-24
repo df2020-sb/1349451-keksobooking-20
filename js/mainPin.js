@@ -40,7 +40,7 @@
   };
 
   var mousedownHandler = function (evt) {
-    if (!map.classList.contains('map--faded')) {
+    if (!map.classList.contains('map--faded') && evt.target.parentNode === mainPin) {
       dragMainPin(evt);
     }
   };
@@ -67,7 +67,7 @@
       removeEvents();
     };
 
-    var removeEvents = function (evt) {
+    var removeEvents = function () {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };

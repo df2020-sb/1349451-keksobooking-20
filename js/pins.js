@@ -1,6 +1,8 @@
 'use strict';
 (function () {
 
+  var MAX_PINS_NUMBER = 5;
+
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinContainer = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
@@ -19,12 +21,16 @@
   };
 
   var renderPins = function (objects) {
-    objects.forEach(function (a) {
-      fragment.appendChild(renderPin(a));
-    });
+    for (var i = 0; i < MAX_PINS_NUMBER; i++) {
+      if (objects[i]) {
+        fragment.appendChild(renderPin(objects[i]));
+      }
+    };
+
     pinContainer.appendChild(fragment);
     fragment.innerHTML = '';
   };
+
   window.pins = {
     render: renderPins,
   };
