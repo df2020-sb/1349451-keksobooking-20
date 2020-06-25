@@ -14,28 +14,29 @@
     MAX: 50000
   };
 
-  var checkPrice = function (object) {
-    var objectPrice = object.offer.price;
+  var checkPrice = function (objectPrice) {
     return price.value === 'any' ||
       (price.value === 'middle' && (objectPrice > priceRange.MAX || objectPrice < priceRange.MIN)) ||
       (price.value === 'low' && objectPrice > priceRange.MIN) ||
       (price.value === 'high' && objectPrice < priceRange.MAX);
   };
 
-  var checkFeatures = function (object) {
+  var checkFeatures = function (objectFeatures) {
     for (var checkbox of checkboxes) {
-      if (checkbox.checked && !object.offer.features.includes(checkbox.value)) {
+      if (checkbox.checked && !objectFeatures.includes(checkbox.value)) {
         return false;
       }
-    } return true;
+    }
+
+    return true;
   };
 
   var filterObjects = function (object) {
     return (type.value === 'any' || object.offer.type === type.value) &&
       (rooms.value === 'any' || object.offer.rooms == rooms.value) &&
       (guests.value === 'any' || object.offer.guests != guests.value) &&
-      checkPrice(object) &&
-      checkFeatures(object);
+      checkPrice(object.offer.price) &&
+      checkFeatures(object.offer.features);
   };
 
   var updatePins = window.utils.debounce(function () {
