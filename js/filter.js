@@ -2,10 +2,10 @@
 
 (function () {
 
-  var type = document.querySelector('#housing-type');
-  var price = document.querySelector('#housing-price');
-  var rooms = document.querySelector('#housing-rooms');
-  var guests = document.querySelector('#housing-guests');
+  var typeSelect = document.querySelector('#housing-type');
+  var priceSelect = document.querySelector('#housing-price');
+  var roomsSelect = document.querySelector('#housing-rooms');
+  var guestsSelect = document.querySelector('#housing-guests');
   var checkboxes = document.querySelectorAll('.map__checkbox');
   var filters = document.querySelector('.map__filters');
 
@@ -14,16 +14,16 @@
     MAX: 50000
   };
 
-  var checkPrice = function (objectPrice) {
-    return price.value === 'any' ||
-      (price.value === 'middle' && (objectPrice > priceRange.MAX || objectPrice < priceRange.MIN)) ||
-      (price.value === 'low' && objectPrice > priceRange.MIN) ||
-      (price.value === 'high' && objectPrice < priceRange.MAX);
+  var checkPrice = function (price) {
+    return priceSelect.value === 'any' ||
+      (priceSelect.value === 'middle' && (price > priceRange.MAX || price < priceRange.MIN)) ||
+      (priceSelect.value === 'low' && price > priceRange.MIN) ||
+      (priceSelect.value === 'high' && price < priceRange.MAX);
   };
 
-  var checkFeatures = function (objectFeatures) {
+  var checkFeatures = function (features) {
     for (var checkbox of checkboxes) {
-      if (checkbox.checked && !objectFeatures.includes(checkbox.value)) {
+      if (checkbox.checked && !features.includes(checkbox.value)) {
         return false;
       }
     }
@@ -32,9 +32,9 @@
   };
 
   var filterObjects = function (object) {
-    return (type.value === 'any' || object.offer.type === type.value) &&
-      (rooms.value === 'any' || object.offer.rooms == rooms.value) &&
-      (guests.value === 'any' || object.offer.guests != guests.value) &&
+    return (typeSelect.value === 'any' || object.offer.type === typeSelect.value) &&
+      (roomsSelect.value === 'any' || object.offer.rooms == roomsSelect.value) &&
+      (guestsSelect.value === 'any' || object.offer.guests == guestsSelect.value) &&
       checkPrice(object.offer.price) &&
       checkFeatures(object.offer.features);
   };
