@@ -3,6 +3,7 @@
 
   var MAX_PINS_NUMBER = 5;
 
+  var activePin;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinContainer = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
@@ -15,19 +16,17 @@
     pinImage.src = object.author.avatar;
     pinImage.alt = object.offer.title;
 
-    var renderCard = function () {
+    var onPinClick = function (evt) {
+      if (activePin === evt.target) {
+        return;
+      }
+      activePin = evt.target;
       window.card.render(object);
-      pinElement.removeEventListener('click', renderCard);
     };
 
-    pinElement.addEventListener('click', renderCard);
-    pinElement.addEventListener('blur', function () {
-      pinElement.addEventListener('click', renderCard);
-    });
-
+    pinElement.addEventListener('click', onPinClick);
     return pinElement;
   };
-
 
   var renderPins = function (objects) {
     objects.slice(0, MAX_PINS_NUMBER).forEach(function (object) {

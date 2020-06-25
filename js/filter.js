@@ -15,25 +15,11 @@
   };
 
   var checkPrice = function (object) {
-
     var objectPrice = object.offer.price;
-
-    switch (true) {
-
-      case price.value === 'any':
-        return true;
-
-      case price.value === 'middle' && (objectPrice > priceRange.MAX || objectPrice < priceRange.MIN):
-        return false;
-
-      case price.value === 'low' && objectPrice > priceRange.MIN:
-        return false;
-
-      case price.value === 'high' && objectPrice < priceRange.MAX:
-        return false;
-    }
-
-    return true;
+    return price.value === 'any' ||
+      (price.value === 'middle' && (objectPrice > priceRange.MAX || objectPrice < priceRange.MIN)) ||
+      (price.value === 'low' && objectPrice > priceRange.MIN) ||
+      (price.value === 'high' && objectPrice < priceRange.MAX);
   };
 
   var checkFeatures = function (object) {
@@ -44,24 +30,12 @@
     } return true;
   };
 
-
   var filterObjects = function (object) {
-
-    switch (true) {
-      case type.value !== 'any' && object.offer.type !== type.value:
-        return false;
-
-      case rooms.value !== 'any' && object.offer.rooms != rooms.value:
-        return false;
-
-      case guests.value !== 'any' && object.offer.guests != guests.value:
-        return false;
-
-      case !checkPrice(object) || !checkFeatures(object):
-        return false;
-    }
-
-    return true;
+    return (type.value === 'any' || object.offer.type === type.value) &&
+      (rooms.value === 'any' || object.offer.rooms == rooms.value) &&
+      (guests.value === 'any' || object.offer.guests != guests.value) &&
+      checkPrice(object) &&
+      checkFeatures(object);
   };
 
   var updatePins = window.utils.debounce(function () {

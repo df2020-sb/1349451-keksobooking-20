@@ -47,7 +47,6 @@
 
   var onLoadSuccess = function (objects) {
     window.objects = objects;
-    console.log(window.objects);
     window.pins.render(window.objects);
     window.activatePage();
   };
