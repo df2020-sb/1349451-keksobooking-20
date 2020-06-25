@@ -14,11 +14,20 @@
     pinElement.style.top = object.location.y + pinElement.offsetHeight + 'px';
     pinImage.src = object.author.avatar;
     pinImage.alt = object.offer.title;
-    pinElement.addEventListener('click', function () {
+
+    var renderCard = function () {
       window.card.render(object);
+      pinElement.removeEventListener('click', renderCard);
+    };
+
+    pinElement.addEventListener('click', renderCard);
+    pinElement.addEventListener('blur', function () {
+      pinElement.addEventListener('click', renderCard);
     });
+
     return pinElement;
   };
+
 
   var renderPins = function (objects) {
     objects.slice(0, MAX_PINS_NUMBER).forEach(function (object) {
