@@ -33,8 +33,8 @@
 
   var filterObjects = function (object) {
     return (typeSelect.value === 'any' || object.offer.type === typeSelect.value) &&
-      (roomsSelect.value === 'any' || object.offer.rooms == roomsSelect.value) &&
-      (guestsSelect.value === 'any' || object.offer.guests == guestsSelect.value) &&
+      (roomsSelect.value === 'any' || object.offer.rooms === +roomsSelect.value) &&
+      (guestsSelect.value === 'any' || object.offer.guests === +guestsSelect.value) &&
       checkPrice(object.offer.price) &&
       checkFeatures(object.offer.features);
   };
