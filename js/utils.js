@@ -60,6 +60,22 @@
     window.banner.render('error', type, errorMessage);
   };
 
+  var debounce = function (callback) {
+    var timeout = null;
+
+    return function () {
+      var parameters = arguments;
+
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+
+      timeout = setTimeout(function () {
+        callback.apply(null, parameters);
+      }, 500);
+    };
+  };
+
   window.utils = {
     getRandomRangeNumber: getRandomRangeNumber,
     getRandomArrayElements: getRandomArrayElements,
@@ -69,6 +85,7 @@
     onLoadSuccess: onLoadSuccess,
     onSaveSuccess: onSaveSuccess,
     onError: onError,
+    debounce: debounce,
   };
 
 })();
