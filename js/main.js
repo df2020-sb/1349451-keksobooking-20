@@ -13,8 +13,7 @@
   };
 
   window.onload = function () {
-    window.form.toggleDisableForm();
-    window.form.updateAddressInputValue();
+    window.form.disable();
     mapFilters.classList.add('hidden');
   };
 
@@ -22,11 +21,7 @@
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('hidden');
-    window.form.toggleDisableForm();
-    window.form.updateAddressInputValue();
-    window.form.updatePriceInputPlaceholder();
-    window.form.checkCapacity();
-
+    window.form.enable();
     window.mainPin.removeKeydownEvent();
   };
 
@@ -36,13 +31,9 @@
     mapFilters.classList.add('hidden');
     mainPin.style.left = mainPinPosition.x + 'px';
     mainPin.style.top = mainPinPosition.y + 'px';
-
     window.pins.remove();
     window.card.remove();
-
-    window.form.reset();
-    window.form.toggleDisableForm();
-    window.form.updateAddressInputValue();
+    window.form.disable();
   };
 
 })();
