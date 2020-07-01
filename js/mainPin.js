@@ -77,7 +77,7 @@
       var newY = mainPin.offsetTop - (cursor.y - evt.clientY);
       mainPin.style.left = Math.max(minX, Math.min(newX, maxX)) + 'px';
       mainPin.style.top = Math.max(MIN_Y - FULL_HEIGHT, Math.min(newY, MAX_Y - FULL_HEIGHT)) + 'px';
-      window.form.updateAddressInputValue();
+      window.form.updateAddress();
     };
 
     document.addEventListener('mousemove', onMouseMove);

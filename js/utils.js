@@ -2,22 +2,6 @@
 
 (function () {
 
-  // var getRandomRangeNumber = function (min, max) {
-  //   return Math.floor(Math.random() * (max - min + 1)) + min;
-  // };
-
-  // var getRandomArrayElements = function (arr) {
-  //   var res = [];
-  //   var len = getRandomRangeNumber(1, arr.length);
-  //   while (res.length < len) {
-  //     var randomIndex = getRandomRangeNumber(0, arr.length - 1);
-  //     if (res.indexOf(randomIndex) === -1) {
-  //       res.push(randomIndex);
-  //     }
-  //   }
-  //   return res.sort(function (a, b) { return a - b; }).map(function (a) { return arr[a]; });
-  // };
-
   var getNounCase = function (number, array) {
     return (
       number % 10 === 1 && number !== 11
@@ -48,11 +32,11 @@
   var onLoadSuccess = function (objects) {
     window.objects = objects;
     window.pins.render(window.objects);
-    window.activatePage();
+    window.main.activatePage();
   };
 
   var onSaveSuccess = function () {
-    window.disablePage();
+    window.main.disablePage();
     window.banner.render('success');
   };
 
@@ -76,12 +60,7 @@
     };
   };
 
-
-
-
   window.utils = {
-    // getRandomRangeNumber: getRandomRangeNumber,
-    // getRandomArrayElements: getRandomArrayElements,
     getNounCase: getNounCase,
     isEscPressed: isEscPressed,
     isClicked: isClicked,

@@ -17,10 +17,11 @@
   var avatarSource = avatarPreview.src;
   var photoPicker = document.querySelector('.ad-form__upload input');
   var photoPreview = document.querySelector('.ad-form__photo');
+  var photoParent = document.querySelector('.ad-form__photo-container');
 
-  avatarPreview.style.height = '100%';
-  avatarPreview.style.width = 'auto';
-  avatarPreview.parentNode.style.padding = '0';
+  // avatarPreview.style.height = '100%';
+  // avatarPreview.style.width = 'auto';
+  // avatarPreview.parentNode.style.padding = '0';
   photoPreview.style.backgroundRepeat = "no-repeat";
   photoPreview.style.backgroundSize = "cover";
 
@@ -33,29 +34,29 @@
   var checkCapacity = function () {
     var rooms = parseInt(roomNumberSelect.value);
     var capacity = parseInt(capacitySelect.value);
+    var message = '';
 
-    var message = rooms === 100 && capacity !== 0
-      ? 'Этот дом не для гостей'
-      : rooms !== 100 && capacity === 0
-        ? 'Укажите количество гостей'
-        : capacity > rooms
-          ? 'Слишком много гостей'
-          : '';
+    if (rooms === 100 && capacity !== 0) {
+      message = 'Этот дом не для гостей';
+    } else if (rooms !== 100 && capacity === 0) {
+      message = 'Укажите количество гостей';
+    } else if (capacity > rooms) {
+      message = 'Слишком много гостей';
+    }
 
     capacitySelect.setCustomValidity(message);
   };
 
   var checkPrice = function (type, price) {
-    var message = 'Цена не может быть ниже ';
+    var message = '';
 
-    message = (!price)
-      ? 'Обязательное поле'
-      : price > 1000000
-        ? 'Цена не может быть выше 1 000 000 ₽'
-        : price < priceMap.get(type)
-          ? message + priceMap.get(type) + ' ₽'
-          : '';
-
+    if (!price) {
+      message = 'Обязательное поле';
+    } else if (price > 1000000) {
+      message = 'Цена не может быть выше 1 000 000 ₽';
+    } else if (price < priceMap.get(type)) {
+      message = 'Цена не может быть ниже ' + priceMap.get(type) + ' ₽';
+    }
     priceInput.setCustomValidity(message);
   };
 
@@ -87,9 +88,12 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
-        evt.target === avatarPicker
-          ? avatarPreview.src = reader.result
-          : photoPreview.style.backgroundImage = "url(" + reader.result + ")";
+        if (evt.target === avatarPicker) { avatarPreview.src = reader.result; }
+        else {
+          var newPhoto = photoPreview.cloneNode(true);
+          newPhoto.style.backgroundImage = 'url(' + reader.result + ')';
+          photoParent.insertBefore(newPhoto, photoPreview);
+        }
       });
       reader.readAsDataURL(file);
     }
@@ -126,14 +130,15 @@
   };
 
   titleInput.addEventListener('input', function () {
+    var message = '';
 
-    var message = titleInput.validity.tooShort
-      ? 'Заголовок должен быть не менее 30 символов.'
-      : titleInput.validity.tooLong
-        ? 'Заголовок должен быть не более 100 символов.'
-        : titleInput.validity.valueMissing
-          ? 'Обязательное поле'
-          : '';
+    if (titleInput.validity.tooShort) {
+      message = 'Заголовок должен быть не менее 30 символов.';
+    } else if (titleInput.validity.tooLong) {
+      message = 'Заголовок должен быть не более 100 символов.';
+    } else if (titleInput.validity.valueMissing) {
+      message = 'Обязательное поле';
+    }
 
     titleInput.setCustomValidity(message);
   });
@@ -176,6 +181,7 @@
   document.querySelector('.ad-form__reset').addEventListener('click', resetForm);
 
   window.form = {
+    updateAddress: updateAddressInputValue,
     disable: disableForm,
     enable: enableForm
   };

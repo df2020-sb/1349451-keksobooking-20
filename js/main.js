@@ -12,12 +12,7 @@
     y: mainPin.offsetTop,
   };
 
-  window.onload = function () {
-    window.form.disable();
-    mapFilters.classList.add('hidden');
-  };
-
-  window.activatePage = function () {
+  var activatePage = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('hidden');
@@ -25,7 +20,7 @@
     window.mainPin.removeKeydownEvent();
   };
 
-  window.disablePage = function () {
+  var disablePage = function () {
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('hidden');
@@ -34,6 +29,16 @@
     window.pins.remove();
     window.card.remove();
     window.form.disable();
+  };
+
+  window.onload = function () {
+    window.form.disable();
+    mapFilters.classList.add('hidden');
+  };
+
+  window.main = {
+    activatePage: activatePage,
+    disablePage: disablePage
   };
 
 })();
