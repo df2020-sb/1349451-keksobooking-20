@@ -19,10 +19,8 @@
   var photoPreview = document.querySelector('.ad-form__photo');
   var photoParent = document.querySelector('.ad-form__photo-container');
 
-  // avatarPreview.style.height = '100%';
-  // avatarPreview.style.width = 'auto';
-  // avatarPreview.parentNode.style.padding = '0';
   photoPreview.style.backgroundRepeat = "no-repeat";
+  photoPreview.style.backgroundPosition = "center";
   photoPreview.style.backgroundSize = "cover";
 
   var priceMap = new Map([
@@ -91,6 +89,7 @@
         if (evt.target === avatarPicker) { avatarPreview.src = reader.result; }
         else {
           var newPhoto = photoPreview.cloneNode(true);
+          newPhoto.classList.add('new-photo');
           newPhoto.style.backgroundImage = 'url(' + reader.result + ')';
           photoParent.insertBefore(newPhoto, photoPreview);
         }
@@ -106,10 +105,13 @@
   };
 
   var resetForm = function () {
+    var newPhotos = document.getElementsByClassName('new-photo');
+    while (newPhotos[0]) {
+      photoParent.removeChild(newPhotos[0]);
+    }
+    avatarPreview.src = avatarSource;
     adForm.reset();
     updateAddressInputValue();
-    avatarPreview.src = avatarSource;
-    photoPreview.style.backgroundImage = 'none';
   };
 
   var enableForm = function () {
