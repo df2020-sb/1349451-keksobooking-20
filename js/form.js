@@ -19,10 +19,6 @@
   var photoPreview = document.querySelector('.ad-form__photo');
   var photoParent = document.querySelector('.ad-form__photo-container');
 
-  photoPreview.style.backgroundRepeat = "no-repeat";
-  photoPreview.style.backgroundPosition = "center";
-  photoPreview.style.backgroundSize = "cover";
-
   var priceMap = new Map([
     ['flat', 1000],
     ['house', 5000],
