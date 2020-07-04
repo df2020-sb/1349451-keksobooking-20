@@ -42,7 +42,7 @@
   var updatePins = window.utils.debounce(function () {
     window.pins.remove();
     window.card.remove();
-    window.pins.render(window.objects.slice().filter(filterObjects));
+    window.pins.render(window.main.objects.slice().filter(filterObjects));
   });
 
   filters.addEventListener('change', updatePins);

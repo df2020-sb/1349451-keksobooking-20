@@ -3,8 +3,6 @@
 (function () {
   var banner;
   var adForm = document.querySelector('.ad-form');
-  var requestType;
-
   var main = document.querySelector('main');
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -20,12 +18,16 @@
     banner.classList.add('banner');
     document.addEventListener('keydown', window.utils.isEscPressed);
     document.addEventListener('mousedown', window.utils.isClicked);
-    errorButton.addEventListener('click', onErrorButtonClick);
+
+    errorButton.addEventListener('click', function handler() {
+      errorButton.removeEventListener('click', handler);
+      onErrorButtonClick(type);
+    });
     errorMessageContainer.textContent = text || errorMessageContainer.textContent;
   };
 
-  var onErrorButtonClick = function () {
-    requestType === 'post'
+  var onErrorButtonClick = function (type) {
+    type === 'post'
       ? window.backend.save(new FormData(adForm), window.utils.onSaveSuccess, window.utils.onError)
       : window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
     removeBanner();

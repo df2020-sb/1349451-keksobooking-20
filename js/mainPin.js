@@ -86,12 +86,11 @@
 
   document.addEventListener('mousedown', onDocumentMouseDown);
   document.addEventListener('keydown', onDocumentKeyDown);
-
   mainPin.addEventListener('click', onMainPinClick);
 
   window.mainPin = {
     removeKeydownEvent: removeKeydownEvent,
-    position: getPointerPosition,
+    getPosition: getPointerPosition,
   };
 
 })();

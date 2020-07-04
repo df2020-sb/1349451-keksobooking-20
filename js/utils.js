@@ -30,8 +30,8 @@
   };
 
   var onLoadSuccess = function (objects) {
-    window.objects = objects;
-    window.pins.render(window.objects);
+    window.main.objects = objects;
+    window.pins.render(window.main.objects);
     window.main.activatePage();
   };
 

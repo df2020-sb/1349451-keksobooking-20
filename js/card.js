@@ -22,10 +22,10 @@
   var updateFeaturesList = function (object) {
     var featuresListItems = cardElement.querySelectorAll('.popup__features li');
     var features = object.offer.features;
-    for (var i = 0; i < featuresListItems.length; i++) {
-      featuresListItems[i].classList.add('hidden');
-      checkFeaturesListItem(featuresListItems[i], features);
-    }
+    featuresListItems.forEach(function (item) {
+      item.classList.add('hidden');
+      checkFeaturesListItem(item, features);
+    });
   };
 
   var checkFeaturesListItem = function (featuresListItem, featuresArray) {
@@ -39,13 +39,14 @@
 
   var updatePhotosList = function (object) {
     var photos = object.offer.photos;
-    photosContainer.innerHTML = '';
     var photosFragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
+    photosContainer.innerHTML = '';
+    photos.forEach(function (photo) {
       var newPhoto = photoTemplate.cloneNode(true);
-      newPhoto.src = photos[i];
+      newPhoto.src = photo;
       photosFragment.appendChild(newPhoto);
-    }
+    });
+
     photosContainer.appendChild(photosFragment);
   };
 
@@ -68,7 +69,7 @@
     updateFeaturesList(object);
     updatePhotosList(object);
 
-    closeButton.addEventListener('click', function (evt) {
+    closeButton.addEventListener('click', function () {
       cardElement.classList.add('hidden');
       document.removeEventListener('keydown', window.utils.isEscPressed);
     });

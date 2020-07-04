@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
 
   var IMAGE_EXTENSIONS = ['gif', 'jpeg', 'jpg', 'png'];
@@ -66,8 +67,8 @@
   };
 
   var updateAddressInputValue = function () {
-    var x = window.mainPin.position().x;
-    var y = window.mainPin.position().y;
+    var x = window.mainPin.getPosition().x;
+    var y = window.mainPin.getPosition().y;
     document.querySelector('#address').value = x + ', ' + y;
   };
 
@@ -82,8 +83,9 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
-        if (evt.target === avatarPicker) { avatarPreview.src = reader.result; }
-        else {
+        if (evt.target === avatarPicker) {
+          avatarPreview.src = reader.result;
+        } else {
           var newPhoto = photoPreview.cloneNode(true);
           newPhoto.classList.add('new-photo');
           newPhoto.style.backgroundImage = 'url(' + reader.result + ')';
@@ -95,8 +97,8 @@
   };
 
   var toggleDisableForm = function () {
-    adForm.querySelectorAll('fieldset').forEach(function (a) {
-      a.disabled = !a.disabled;
+    adForm.querySelectorAll('fieldset').forEach(function (fieldset) {
+      fieldset.disabled = !fieldset.disabled;
     });
   };
 

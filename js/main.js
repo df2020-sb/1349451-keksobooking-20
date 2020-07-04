@@ -1,7 +1,6 @@
 'use strict';
-(function () {
 
-  window.objects = [];
+(function () {
 
   var map = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
@@ -38,7 +37,8 @@
 
   window.main = {
     activatePage: activatePage,
-    disablePage: disablePage
+    disablePage: disablePage,
+    objects: []
   };
 
 })();
