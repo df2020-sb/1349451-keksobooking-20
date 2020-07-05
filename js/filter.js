@@ -6,7 +6,6 @@
   var priceSelect = document.querySelector('#housing-price');
   var roomsSelect = document.querySelector('#housing-rooms');
   var guestsSelect = document.querySelector('#housing-guests');
-  // var checkboxes = document.querySelectorAll('.map__checkbox');
   var filters = document.querySelector('.map__filters');
 
   var priceRange = {
@@ -26,17 +25,9 @@
     return selectedFeatures.every(function (checkbox) {
       return (features.indexOf(checkbox.value) >= 0);
     });
-
-    // for (var checkbox of checkboxes) {
-    //   if (checkbox.checked && !features.includes(checkbox.value)) {
-    //     return false;
-    //   }
-    // }
-
-    // return true;
   };
 
-  var filterads = function (ad) {
+  var filterAds = function (ad) {
 
     return (typeSelect.value === 'any' || ad.offer.type === typeSelect.value) &&
       (roomsSelect.value === 'any' || ad.offer.rooms === Number(roomsSelect.value)) &&
@@ -48,7 +39,7 @@
   var updatePins = window.utils.debounce(function () {
     window.pins.remove();
     window.card.remove();
-    window.pins.render(window.main.ads.slice().filter(filterads));
+    window.pins.render(window.main.ads.slice().filter(filterAds));
   });
 
   filters.addEventListener('change', updatePins);
