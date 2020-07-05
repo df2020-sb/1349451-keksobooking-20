@@ -12,7 +12,6 @@
   var errorMessageContainer = errorBanner.querySelector('.error__message');
 
   var renderBanner = function (status, type, text) {
-    requestType = type;
     banner = (status === 'success') ? successBanner : errorBanner;
     main.appendChild(banner);
     banner.classList.add('banner');
@@ -28,9 +27,7 @@
   };
 
   var onErrorButtonClick = function (type) {
-    type === 'post'
-      ? window.backend.save(new FormData(adForm), window.utils.onSaveSuccess, window.utils.onError)
-      : window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
+    type === 'post' ? window.backend.save(new FormData(adForm), window.utils.onSaveSuccess, window.utils.onError) : window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
     removeBanner();
   };
 

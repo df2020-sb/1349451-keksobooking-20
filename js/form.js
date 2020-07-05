@@ -20,15 +20,15 @@
   var photoPreview = document.querySelector('.ad-form__photo');
   var photoParent = document.querySelector('.ad-form__photo-container');
 
-  var priceMap = new Map([
-    ['flat', 1000],
-    ['house', 5000],
-    ['palace', 10000],
-  ]);
+  var priceMap = {
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000,
+  };
 
   var checkCapacity = function () {
-    var rooms = parseInt(roomNumberSelect.value);
-    var capacity = parseInt(capacitySelect.value);
+    var rooms = Number(roomNumberSelect.value);
+    var capacity = Number(capacitySelect.value);
     var message = '';
 
     if (rooms === 100 && capacity !== 0) {
@@ -49,21 +49,19 @@
       message = 'Обязательное поле';
     } else if (price > 1000000) {
       message = 'Цена не может быть выше 1 000 000 ₽';
-    } else if (price < priceMap.get(type)) {
-      message = 'Цена не может быть ниже ' + priceMap.get(type) + ' ₽';
+    } else if (price < priceMap[type]) {
+      message = 'Цена не может быть ниже ' + priceMap[type] + ' ₽';
     }
     priceInput.setCustomValidity(message);
   };
 
   var updatePriceInputPlaceholder = function () {
     var type = typeSelect.value;
-    priceInput.placeholder = priceMap.get(type) || 0;
+    priceInput.placeholder = priceMap[type] || 0;
   };
 
   var checkTimes = function (target) {
-    target === timeInSelect
-      ? timeOutSelect.value = timeInSelect.value
-      : timeInSelect.value = timeOutSelect.value;
+    target === timeInSelect ? timeOutSelect.value = timeInSelect.value : timeInSelect.value = timeOutSelect.value;
   };
 
   var updateAddressInputValue = function () {
