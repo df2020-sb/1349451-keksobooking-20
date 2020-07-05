@@ -6,7 +6,7 @@
   var priceSelect = document.querySelector('#housing-price');
   var roomsSelect = document.querySelector('#housing-rooms');
   var guestsSelect = document.querySelector('#housing-guests');
-  var checkboxes = document.querySelectorAll('.map__checkbox');
+  // var checkboxes = document.querySelectorAll('.map__checkbox');
   var filters = document.querySelector('.map__filters');
 
   var priceRange = {
@@ -22,27 +22,33 @@
   };
 
   var checkFeatures = function (features) {
-    for (var checkbox of checkboxes) {
-      if (checkbox.checked && !features.includes(checkbox.value)) {
-        return false;
-      }
-    }
+    var selectedFeatures = Array.from(document.querySelectorAll('.map__checkbox:checked'));
+    return selectedFeatures.every(function (checkbox) {
+      return (features.indexOf(checkbox.value) >= 0);
+    });
 
-    return true;
+    // for (var checkbox of checkboxes) {
+    //   if (checkbox.checked && !features.includes(checkbox.value)) {
+    //     return false;
+    //   }
+    // }
+
+    // return true;
   };
 
-  var filterObjects = function (object) {
-    return (typeSelect.value === 'any' || object.offer.type === typeSelect.value) &&
-      (roomsSelect.value === 'any' || object.offer.rooms === Number(roomsSelect.value)) &&
-      (guestsSelect.value === 'any' || object.offer.guests === Number(guestsSelect.value)) &&
-      checkPrice(object.offer.price) &&
-      checkFeatures(object.offer.features);
+  var filterads = function (ad) {
+
+    return (typeSelect.value === 'any' || ad.offer.type === typeSelect.value) &&
+      (roomsSelect.value === 'any' || ad.offer.rooms === Number(roomsSelect.value)) &&
+      (guestsSelect.value === 'any' || ad.offer.guests === Number(guestsSelect.value)) &&
+      checkPrice(ad.offer.price) &&
+      checkFeatures(ad.offer.features);
   };
 
   var updatePins = window.utils.debounce(function () {
     window.pins.remove();
     window.card.remove();
-    window.pins.render(window.main.objects.slice().filter(filterObjects));
+    window.pins.render(window.main.ads.slice().filter(filterads));
   });
 
   filters.addEventListener('change', updatePins);

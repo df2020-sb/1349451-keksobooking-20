@@ -23,6 +23,7 @@
       errorButton.removeEventListener('click', handler);
       onErrorButtonClick(type);
     });
+
     errorMessageContainer.textContent = text || errorMessageContainer.textContent;
   };
 

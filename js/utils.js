@@ -29,9 +29,9 @@
     }
   };
 
-  var onLoadSuccess = function (objects) {
-    window.main.objects = objects;
-    window.pins.render(window.main.objects);
+  var onLoadSuccess = function (data) {
+    window.main.ads = data;
+    window.pins.render(window.main.ads);
     window.main.activatePage();
   };
 

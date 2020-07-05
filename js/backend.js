@@ -2,7 +2,7 @@
 
 (function () {
 
-  var URL_LOAD = 'https://javascript.pages.academy/keksobooking/fgnfn';
+  var URL_LOAD = 'https://javascript.pages.academy/keksobooking/data';
   var URL_SAVE = 'https://javascript.pages.academy/keksobooking';
 
   var onResponse = function (xhr, type, onLoad, onError) {

@@ -8,29 +8,29 @@
   var pinContainer = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
 
-  var renderPin = function (object) {
+  var renderPin = function (ad) {
     var pinElement = pinTemplate.cloneNode(true);
     var pinImage = pinElement.querySelector('img');
-    pinElement.style.left = object.location.x + pinElement.offsetWidth / 2 + 'px';
-    pinElement.style.top = object.location.y + pinElement.offsetHeight + 'px';
-    pinImage.src = object.author.avatar;
-    pinImage.alt = object.offer.title;
+    pinElement.style.left = ad.location.x + pinElement.offsetWidth / 2 + 'px';
+    pinElement.style.top = ad.location.y + pinElement.offsetHeight + 'px';
+    pinImage.src = ad.author.avatar;
+    pinImage.alt = ad.offer.title;
 
     var onPinClick = function (evt) {
       if (activePin === evt.target) {
         return;
       }
       activePin = evt.target;
-      window.card.render(object);
+      window.card.render(ad);
     };
 
     pinElement.addEventListener('click', onPinClick);
     return pinElement;
   };
 
-  var renderPins = function (objects) {
-    objects.slice(0, MAX_PINS_NUMBER).forEach(function (object) {
-      fragment.appendChild(renderPin(object));
+  var renderPins = function (ads) {
+    ads.slice(0, MAX_PINS_NUMBER).forEach(function (ad) {
+      fragment.appendChild(renderPin(ad));
     });
     pinContainer.appendChild(fragment);
     fragment.innerHTML = '';

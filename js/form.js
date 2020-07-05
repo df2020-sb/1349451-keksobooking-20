@@ -67,9 +67,8 @@
   };
 
   var updateAddressInputValue = function () {
-    var x = window.mainPin.getPosition().x;
-    var y = window.mainPin.getPosition().y;
-    document.querySelector('#address').value = x + ', ' + y;
+    var position = window.mainPin.getPosition();
+    document.querySelector('#address').value = position.x + ', ' + position.y;
   };
 
   var uploadImage = function (evt) {

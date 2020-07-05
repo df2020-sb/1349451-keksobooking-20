@@ -38,7 +38,7 @@
   window.main = {
     activatePage: activatePage,
     disablePage: disablePage,
-    objects: []
+    ads: []
   };
 
 })();
