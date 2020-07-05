@@ -27,7 +27,11 @@
   };
 
   var onErrorButtonClick = function (type) {
-    type === 'post' ? window.backend.save(new FormData(adForm), window.utils.onSaveSuccess, window.utils.onError) : window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
+    if (type === 'post') {
+      window.backend.save(new FormData(adForm), window.utils.onSaveSuccess, window.utils.onError);
+    } else {
+      window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
+    }
     removeBanner();
   };
 

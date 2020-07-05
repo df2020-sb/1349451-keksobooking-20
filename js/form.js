@@ -61,7 +61,11 @@
   };
 
   var checkTimes = function (target) {
-    target === timeInSelect ? timeOutSelect.value = timeInSelect.value : timeInSelect.value = timeOutSelect.value;
+    if (target === timeInSelect) {
+      timeOutSelect.value = timeInSelect.value;
+    } else {
+      timeInSelect.value = timeOutSelect.value;
+    }
   };
 
   var updateAddressInputValue = function () {
