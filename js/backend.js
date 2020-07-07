@@ -5,6 +5,12 @@
   var URL_LOAD = 'https://javascript.pages.academy/keksobooking/data';
   var URL_SAVE = 'https://javascript.pages.academy/keksobooking';
 
+  var Status = {
+    OK: 200,
+    NOT_FOUND: 400,
+    SERVER_ERROR: 500
+  };
+
   var onResponse = function (xhr, type, onLoad, onError) {
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -12,15 +18,15 @@
 
       switch (xhr.status) {
 
-        case 200:
+        case Status.OK:
           onLoad(xhr.response);
           break;
 
-        case 404:
+        case Status.NOT_FOUND:
           errorMessage = 'Ничего не найдено';
           break;
 
-        case 500:
+        case Status.SERVER_ERROR:
           errorMessage = 'Внутренняя ошибка сервера';
           break;
 

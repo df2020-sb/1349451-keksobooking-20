@@ -8,6 +8,8 @@
   var MIN_Y = 130;
   var MAX_Y = 630;
 
+  var ENTER_KEYCODE = 13;
+
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
 
@@ -24,7 +26,7 @@
   };
 
   var onDocumentKeyDown = function (evt) {
-    if (evt.keyCode === 13) {
+    if (evt.keyCode === ENTER_KEYCODE) {
       window.backend.load(window.utils.onLoadSuccess, window.utils.onError);
     }
   };

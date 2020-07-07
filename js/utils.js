@@ -2,6 +2,9 @@
 
 (function () {
 
+  var TIMEOUT = 500;
+  var ESCAPE_KEYCODE = 27;
+
   var getNounCase = function (number, array) {
 
     if (number % 10 === 1 && number !== 11) {
@@ -16,10 +19,10 @@
   var isEscPressed = function (evt) {
     var banner = document.querySelector('.banner');
     var card = document.querySelector('.map__card');
-    if (evt.keyCode === 27 && banner) {
+    if (evt.keyCode === ESCAPE_KEYCODE && banner) {
       window.banner.remove();
     }
-    if (evt.keyCode === 27 && card) {
+    if (evt.keyCode === ESCAPE_KEYCODE && card) {
       card.classList.add('hidden');
     }
   };
@@ -58,7 +61,7 @@
 
       timeout = setTimeout(function () {
         callback.apply(null, parameters);
-      }, 500);
+      }, TIMEOUT);
     };
   };
 

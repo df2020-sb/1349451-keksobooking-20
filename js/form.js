@@ -3,6 +3,8 @@
 (function () {
 
   var IMAGE_EXTENSIONS = ['gif', 'jpeg', 'jpg', 'png'];
+  var MAX_ROOMS = 100;
+  var MAX_PRICE = 1000000;
 
   var adForm = document.querySelector('.ad-form');
   var titleInput = document.querySelector('#title');
@@ -12,6 +14,7 @@
   var typeSelect = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
+  var resetButton = document.querySelector('.ad-form__reset');
 
   var avatarPicker = document.querySelector('.ad-form__field input');
   var avatarPreview = document.querySelector('.ad-form-header__preview img');
@@ -31,9 +34,9 @@
     var capacity = Number(capacitySelect.value);
     var message = '';
 
-    if (rooms === 100 && capacity !== 0) {
+    if (rooms === MAX_ROOMS && capacity !== 0) {
       message = 'Этот дом не для гостей';
-    } else if (rooms !== 100 && capacity === 0) {
+    } else if (rooms !== MAX_ROOMS && capacity === 0) {
       message = 'Укажите количество гостей';
     } else if (capacity > rooms) {
       message = 'Слишком много гостей';
@@ -47,7 +50,7 @@
 
     if (!price) {
       message = 'Обязательное поле';
-    } else if (price > 1000000) {
+    } else if (price > MAX_PRICE) {
       message = 'Цена не может быть выше 1 000 000 ₽';
     } else if (price < priceMap[type]) {
       message = 'Цена не может быть ниже ' + priceMap[type] + ' ₽';
@@ -60,12 +63,8 @@
     priceInput.placeholder = priceMap[type] || 0;
   };
 
-  var checkTimes = function (target) {
-    if (target === timeInSelect) {
-      timeOutSelect.value = timeInSelect.value;
-    } else {
-      timeInSelect.value = timeOutSelect.value;
-    }
+  var checkTimes = function (targetSelect, linkedSelect) {
+    linkedSelect.value = targetSelect.value;
   };
 
   var updateAddressInputValue = function () {
@@ -170,8 +169,12 @@
       checkPrice(typeSelect.value, priceInput.value);
     }
 
-    if (evt.target === timeInSelect || evt.target === timeOutSelect) {
-      checkTimes(evt.target);
+    if (evt.target === timeInSelect) {
+      checkTimes(timeInSelect, timeOutSelect);
+    }
+
+    if (evt.target === timeOutSelect) {
+      checkTimes(timeOutSelect, timeInSelect);
     }
   });
 
@@ -179,7 +182,10 @@
   photoPicker.addEventListener('change', uploadImage);
 
   adForm.addEventListener('submit', onSubmit);
-  document.querySelector('.ad-form__reset').addEventListener('click', resetForm);
+
+  resetButton.addEventListener('click', function () {
+    window.main.disablePage();
+  });
 
   window.form = {
     updateAddress: updateAddressInputValue,
