@@ -13,6 +13,7 @@
     MAX: 50000
   };
 
+
   var checkPrice = function (price) {
     return priceSelect.value === 'any' ||
       (priceSelect.value === 'middle' && (price > priceRange.MAX || price < priceRange.MIN)) ||

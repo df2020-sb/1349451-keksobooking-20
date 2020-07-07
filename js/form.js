@@ -113,13 +113,16 @@
   };
 
   var enableForm = function () {
+    adForm.classList.remove('ad-form--disabled');
     toggleDisableForm();
     updateAddressInputValue();
     updatePriceInputPlaceholder();
     checkCapacity();
+
   };
 
   var disableForm = function () {
+    adForm.classList.add('ad-form--disabled');
     toggleDisableForm();
     resetForm();
   };
